@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ksica/provider/auth.dart';
+import 'package:ksica/provider/check_list.dart';
+import 'package:ksica/provider/todo_list.dart';
 import 'package:ksica/widget_tree.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Auth()),
+        ChangeNotifierProvider(create: (_) => TodoList()),
+        ChangeNotifierProvider(create: (_) => CheckList()),
       ],
       child: const MyApp(),
     ),

@@ -32,19 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<void> createUserWithEmailAndPassword() async {
-  //   try {
-  //     await Auth().createUserWithEmailAndPassword(
-  //       email: _controllerEmail.text,
-  //       password: _controllerPassword.text,
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     setState(() {
-  //       errorMessage = e.message;
-  //     });
-  //   }
-  // }
-
   Future<void> createUserWithEmailAndPassword() async {
     Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -52,12 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
     };
 
     final url = Uri.parse('http://141.164.51.245:8000/user/');
-    final response = await http.post(url,
+    await http.post(url,
         body: json.encode({"email": "c", "username": "c", "password": "c"}),
         headers: headers);
-
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
   }
 
   Widget _title() {

@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 import '../provider/auth.dart';
+import '../query/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,20 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  Future<void> signInWithEmailAndPassword(
-      BuildContext context, VoidCallback onSuccess) async {
-    Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    };
-
-    final url = Uri.parse('http://141.164.51.245:8000/auth/');
-    final response = await http.post(url,
-        body: json.encode({
-          "email": _controllerEmail.text,
-          "password": _controllerPassword.text
-        }),
-        headers: headers);
+  Future<void> signIn(BuildContext context, VoidCallback onSuccess) async {
+    final response = await signInWithEmailAndPassword(
+        _controllerEmail.text, _controllerPassword.text);
 
     await storage.write(
       key: "Authorization",
@@ -69,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _submitButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        signInWithEmailAndPassword(
+        signIn(
           context,
           () {
             if (!mounted) return;

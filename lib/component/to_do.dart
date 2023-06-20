@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ToDo extends StatelessWidget {
+import '../provider/check_list.dart';
+
+class ToDo extends StatefulWidget {
   final Map toDo;
-  const ToDo({required this.toDo, super.key});
+  final bool isChecked;
+  const ToDo({required this.toDo, required this.isChecked, super.key});
 
+  @override
+  State<ToDo> createState() => _ToDoState();
+}
+
+class _ToDoState extends State<ToDo> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,9 +35,12 @@ class ToDo extends StatelessWidget {
         width: 10.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text("hello"),
-            ToDoCheckBox(),
+          children: [
+            Text(widget.toDo['name']),
+            ToDoCheckBox(
+              code: widget.toDo['code'],
+              isChecked: widget.isChecked,
+            ),
           ],
         ),
       ),
@@ -37,7 +49,9 @@ class ToDo extends StatelessWidget {
 }
 
 class ToDoCheckBox extends StatefulWidget {
-  const ToDoCheckBox({super.key});
+  final int code;
+  final bool isChecked;
+  const ToDoCheckBox({required this.code, required this.isChecked, super.key});
 
   @override
   State<ToDoCheckBox> createState() => _ToDoCheckBoxState();
@@ -45,6 +59,14 @@ class ToDoCheckBox extends StatefulWidget {
 
 class _ToDoCheckBoxState extends State<ToDoCheckBox> {
   bool isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isChecked = widget.isChecked;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +87,8 @@ class _ToDoCheckBoxState extends State<ToDoCheckBox> {
       fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
       onChanged: (bool? value) {
+        Provider.of<CheckList>(context, listen: false)
+            .updateCheckStates(widget.code, value ?? false);
         setState(() {
           isChecked = value!;
         });

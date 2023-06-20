@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
+import '../query/auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,24 +17,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllerUserName = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  Future<void> createUserWithEmailAndPassword() async {
-    Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    };
+  // Future<void> createUserWithEmailAndPassword() async {
+  //   Map<String, String> headers = {
+  //     "Content-Type": "application/json",
+  //     "Accept": "application/json"
+  //   };
 
-    final url = Uri.parse('http://141.164.51.245:8000/user/');
-    final response = await http.post(url,
-        body: json.encode({
-          "email": _controllerEmail.text,
-          "username": _controllerUserName.text,
-          "password": _controllerPassword.text
-        }),
-        headers: headers);
-
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-  }
+  //   final url = Uri.parse('http://141.164.51.245:8000/user/');
+  //   final response = await http.post(
+  //     url,
+  //     body: json.encode(
+  //       {
+  //         "email": _controllerEmail.text,
+  //         "username": _controllerUserName.text,
+  //         "password": _controllerPassword.text
+  //       },
+  //     ),
+  //     headers: headers,
+  //   );
+  // }
 
   Widget _title() {
     return const Text('Firebase Auth');
@@ -59,7 +59,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _submitButton() {
     return ElevatedButton(
-      onPressed: createUserWithEmailAndPassword,
+      onPressed: () => createUserWithEmailAndPassword(
+        _controllerEmail.text,
+        _controllerUserName.text,
+        _controllerPassword.text,
+      ),
       child: const Text('Register'),
     );
   }
