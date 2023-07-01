@@ -19,20 +19,22 @@ class HomeScreen extends StatelessWidget {
     await storage.delete(
       key: "Authorization",
     );
+    Provider.of<Auth>(context, listen: false).removeToken();
     onSuccess.call();
   }
 
   Widget _signOutButton(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {
-          signOut(
-            context,
-            () {
-              context.read<Auth>().unauthorize();
-            },
-          );
-        },
-        child: const Text("Sign Out"));
+      onPressed: () {
+        signOut(
+          context,
+          () {
+            context.read<Auth>().unauthorize();
+          },
+        );
+      },
+      child: const Text("Sign Out"),
+    );
   }
 
   @override

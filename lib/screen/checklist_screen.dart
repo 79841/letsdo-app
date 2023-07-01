@@ -22,6 +22,8 @@ class _CheckListScreenState extends State<CheckListScreen> {
   }
 
   Widget _CheckList() {
+    print(Provider.of<TodoList>(context, listen: false).todoList);
+    print(Provider.of<CheckList>(context, listen: false).checkStates);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,7 +45,7 @@ class _CheckListScreenState extends State<CheckListScreen> {
     );
   }
 
-  Widget _saveButton() {
+  Widget _SaveButton() {
     return ElevatedButton(
       onPressed: () => updateCheckList(
           Provider.of<CheckList>(context, listen: false).checkStates),
@@ -70,7 +72,7 @@ class _CheckListScreenState extends State<CheckListScreen> {
                   );
                 },
               ),
-              _saveButton(),
+              _SaveButton(),
             ],
           ),
         ),

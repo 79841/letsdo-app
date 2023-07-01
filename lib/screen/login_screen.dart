@@ -28,10 +28,14 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = await signInWithEmailAndPassword(
         _controllerEmail.text, _controllerPassword.text);
 
+    final token = json.decode(response.body)['Authorization'];
     await storage.write(
       key: "Authorization",
-      value: json.decode(response.body)['Authorization'],
+      value: token,
     );
+    if (mounted) {
+      Provider.of<Auth>(context, listen: false).setToken(token);
+    }
     onSuccess.call();
   }
 
