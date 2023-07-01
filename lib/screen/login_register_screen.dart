@@ -1,9 +1,13 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../auth2.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+
+import '../provider/auth.dart';
+import '../query/auth.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,36 +20,41 @@ class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage = '';
   bool isLogin = true;
 
+  static const storage = FlutterSecureStorage();
+
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerUserName = TextEditingController();
 
-  Future<void> signInWithEmailAndPassword() async {
-    try {
-      await Auth().signInWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
+  Future<void> signIn(BuildContext context, VoidCallback onSuccess) async {
+    final response = await signInWithEmailAndPassword(
+        _controllerEmail.text, _controllerPassword.text);
+
+    final token = json.decode(response.body)['Authorization'];
+    await storage.write(
+      key: "Authorization",
+      value: token,
+    );
+    if (mounted) {
+      Provider.of<Auth>(context, listen: false).setToken(token);
     }
+    onSuccess.call();
   }
 
-  Future<void> createUserWithEmailAndPassword() async {
-    Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    };
-
-    final url = Uri.parse('http://141.164.51.245:8000/user/');
-    await http.post(url,
-        body: json.encode({"email": "c", "username": "c", "password": "c"}),
-        headers: headers);
-  }
-
-  Widget _title() {
-    return const Text('Firebase Auth');
+  Widget _logo() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 100.0),
+      alignment: Alignment.center,
+      // margin: const EdgeInsets.all(80.0),
+      child: Text(
+        'KSICA',
+        style: TextStyle(
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey[800],
+        ),
+      ),
+    );
   }
 
   Widget _entryField(
@@ -64,45 +73,121 @@ class _LoginScreenState extends State<LoginScreen> {
     return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
   }
 
-  Widget _submitButton() {
-    return ElevatedButton(
-      onPressed:
-          isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
-      child: Text(isLogin ? 'Login' : 'Register'),
+  Widget _loginButton(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+        onPressed: () {
+          signIn(
+            context,
+            () {
+              // if (!mounted) return;
+              context.read<Auth>().authorize();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen(),
+                ),
+              );
+            },
+          );
+        },
+        child: const Text('Login'),
+      ),
     );
   }
 
-  Widget _loginOrRegisterButton() {
-    return TextButton(
-      onPressed: () {
-        setState(() {
-          isLogin = !isLogin;
-        });
-      },
-      child: Text(isLogin ? 'Register instead' : 'Login instead'),
+  Widget _changeToRegisterMode(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            isLogin = false;
+          });
+        },
+        child: const Text(
+          "Go to register",
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
     );
+  }
+
+  Widget _loginMode(BuildContext context) {
+    return Column(
+      children: [
+        _entryField('email', _controllerEmail),
+        _entryField('password', _controllerPassword),
+        _errorMessage(),
+        _loginButton(context),
+        _changeToRegisterMode(context),
+      ],
+    );
+  }
+
+  Widget _registerButton(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
+      child: ElevatedButton(
+        onPressed: () async {
+          await createUserWithEmailAndPassword(
+            _controllerEmail.text,
+            _controllerUserName.text,
+            _controllerPassword.text,
+          );
+          setState(() {
+            isLogin = true;
+          });
+        },
+        child: const Text('Register'),
+      ),
+    );
+  }
+
+  Widget _registerMode(BuildContext context) {
+    return Column(
+      children: [
+        _entryField('email', _controllerEmail),
+        _entryField('username', _controllerUserName),
+        _entryField('password', _controllerPassword),
+        _errorMessage(),
+        _registerButton(context),
+      ],
+    );
+  }
+
+  Widget _formMode(BuildContext context) {
+    return isLogin ? _loginMode(context) : _registerMode(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _title(),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _entryField('email', _controllerEmail),
-            _entryField('password', _controllerPassword),
-            _errorMessage(),
-            _submitButton(),
-            _loginOrRegisterButton(),
-          ],
+      body: SafeArea(
+        child: Container(
+          alignment: Alignment.center,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(20),
+          child: Container(
+            alignment: Alignment.center,
+            height: 700.0,
+            width: 300.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _logo(),
+                _formMode(context),
+                // _loginOrRegisterButton(),
+              ],
+            ),
+          ),
         ),
       ),
     );

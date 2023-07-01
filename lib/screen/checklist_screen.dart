@@ -16,40 +16,51 @@ class CheckListScreen extends StatefulWidget {
 class _CheckListScreenState extends State<CheckListScreen> {
   Future<bool> _initCheckStates() async {
     if (!mounted) return false;
-    await Provider.of<TodoList>(context, listen: false).initialize();
+    await Provider.of<TodoList>(context, listen: false).getTodoList();
     await Provider.of<CheckList>(context, listen: false).fetchCheckStates();
     return true;
   }
 
   Widget _CheckList() {
-    print(Provider.of<TodoList>(context, listen: false).todoList);
-    print(Provider.of<CheckList>(context, listen: false).checkStates);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: Provider.of<TodoList>(context, listen: false).todoList.map(
-        (e) {
-          bool isChecked = false;
-          for (var v
-              in Provider.of<CheckList>(context, listen: false).checkStates) {
-            if (e["code"] == v["code"] && v["done"] == true) {
-              isChecked = true;
-            }
-          }
-          return ToDo(
-            toDo: e,
-            isChecked: isChecked,
-          );
-        },
-      ).toList(),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      // height: MediaQuery.of(context).size.height,
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: 350.0,
+        // height: 700.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: Provider.of<TodoList>(context, listen: false).todoList.map(
+            (e) {
+              bool isChecked = false;
+              for (var v in Provider.of<CheckList>(context, listen: false)
+                  .checkStates) {
+                if (e["code"] == v["code"] && v["done"] == true) {
+                  isChecked = true;
+                }
+              }
+              return ToDo(
+                toDo: e,
+                isChecked: isChecked,
+              );
+            },
+          ).toList(),
+        ),
+      ),
     );
   }
 
   Widget _SaveButton() {
-    return ElevatedButton(
-      onPressed: () => updateCheckList(
-          Provider.of<CheckList>(context, listen: false).checkStates),
-      child: const Text("save"),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20.0),
+      width: 350.0,
+      child: ElevatedButton(
+        onPressed: () => updateCheckList(
+            Provider.of<CheckList>(context, listen: false).checkStates),
+        child: const Text("save"),
+      ),
     );
   }
 
@@ -59,7 +70,9 @@ class _CheckListScreenState extends State<CheckListScreen> {
       child: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
+          height: 700.0,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FutureBuilder(
                 future: _initCheckStates(),

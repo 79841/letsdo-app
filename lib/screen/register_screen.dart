@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ksica/screen/login_register_screen.dart';
 
 import '../query/auth.dart';
 
@@ -17,28 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllerUserName = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  // Future<void> createUserWithEmailAndPassword() async {
-  //   Map<String, String> headers = {
-  //     "Content-Type": "application/json",
-  //     "Accept": "application/json"
-  //   };
-
-  //   final url = Uri.parse('http://141.164.51.245:8000/user/');
-  //   final response = await http.post(
-  //     url,
-  //     body: json.encode(
-  //       {
-  //         "email": _controllerEmail.text,
-  //         "username": _controllerUserName.text,
-  //         "password": _controllerPassword.text
-  //       },
-  //     ),
-  //     headers: headers,
-  //   );
-  // }
-
   Widget _title() {
-    return const Text('Firebase Auth');
+    return const Text('Sign Up');
   }
 
   Widget _entryField(
@@ -57,37 +38,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
   }
 
-  Widget _submitButton() {
-    return ElevatedButton(
-      onPressed: () => createUserWithEmailAndPassword(
-        _controllerEmail.text,
-        _controllerUserName.text,
-        _controllerPassword.text,
+  void _goToLogin(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => const LoginScreen(),
       ),
-      child: const Text('Register'),
+    );
+  }
+
+  Widget _submitButton(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
+      child: ElevatedButton(
+        onPressed: () async {
+          await createUserWithEmailAndPassword(
+            _controllerEmail.text,
+            _controllerUserName.text,
+            _controllerPassword.text,
+          );
+          _goToLogin(context);
+        },
+        child: const Text('Register'),
+      ),
+    );
+  }
+
+  Widget _logo() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 100.0),
+      alignment: Alignment.center,
+      // margin: const EdgeInsets.all(80.0),
+      child: Text(
+        'KSICA',
+        style: TextStyle(
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey[800],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _title(),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _entryField('email', _controllerEmail),
-            _entryField('username', _controllerUserName),
-            _entryField('password', _controllerPassword),
-            _errorMessage(),
-            _submitButton(),
-          ],
+      // appBar: AppBar(
+      //   title: _title(),
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      // ),
+      body: SafeArea(
+        child: Container(
+          alignment: Alignment.center,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(20),
+          child: SizedBox(
+            height: 700.0,
+            width: 300.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _logo(),
+                _entryField('email', _controllerEmail),
+                _entryField('username', _controllerUserName),
+                _entryField('password', _controllerPassword),
+                _errorMessage(),
+                _submitButton(context),
+              ],
+            ),
+          ),
         ),
       ),
     );

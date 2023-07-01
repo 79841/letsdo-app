@@ -45,6 +45,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   auto_size_text: ^3.0.0
   intl: ^0.18.1
+  syncfusion_flutter_charts: ^22.1.36
 
 dev_dependencies:
   flutter_test:

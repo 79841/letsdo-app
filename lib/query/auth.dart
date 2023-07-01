@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:ksica/config.dart';
 
 Future<Response> signInWithEmailAndPassword(
     String email, String password) async {
@@ -25,7 +26,7 @@ Future<void> createUserWithEmailAndPassword(
     "Accept": "application/json"
   };
 
-  final url = Uri.parse('http://141.164.51.245:8000/user/');
+  final url = Uri.parse('$SERVER_URL/user/');
   final response = await http.post(
     url,
     body: json.encode(

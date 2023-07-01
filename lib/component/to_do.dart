@@ -18,6 +18,7 @@ class _ToDoState extends State<ToDo> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
       height: 50.0,
+      margin: const EdgeInsets.symmetric(vertical: 3.0),
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         boxShadow: [

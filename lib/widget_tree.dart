@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/provider/auth.dart';
 import 'package:ksica/screen/home_screen.dart';
-import 'package:ksica/screen/login_screen.dart';
+import 'package:ksica/screen/login_register_screen.dart';
 import 'package:provider/provider.dart';
 
 class WidgetTree extends StatefulWidget {
@@ -17,7 +17,7 @@ class _WidgetTreeState extends State<WidgetTree> {
     return StreamBuilder(
       stream: context.watch<Auth>().auth.stream,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data == true) {
+        if (snapshot.data == true) {
           return const HomeScreen();
         } else {
           return const LoginScreen();

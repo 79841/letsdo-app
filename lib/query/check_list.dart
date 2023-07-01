@@ -21,7 +21,7 @@ Future<void> updateCheckList(checkStates) async {
   );
 }
 
-Future<dynamic> fetchCheckList() async {
+Future<List<dynamic>> fetchCheckList() async {
   const storage = FlutterSecureStorage();
   String? token = await storage.read(key: "Authorization");
   Map<String, String> headers = {
