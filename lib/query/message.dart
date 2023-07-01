@@ -17,5 +17,6 @@ Future<List<Map<String, dynamic>>> fetchMessages(int chatroomId) async {
   List<dynamic> decodedResposne = json.decode(response.body);
   List<Map<String, dynamic>> messages =
       decodedResposne.cast<Map<String, dynamic>>().toList();
+  print(messages);
   return messages;
 }

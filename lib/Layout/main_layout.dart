@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ksica/query/chatroom.dart';
 
 import '../screen/chat_screen.dart';
 
 class Layout extends StatelessWidget {
-  final child;
+  final Widget child;
   const Layout({required this.child, super.key});
 
   @override
@@ -17,10 +18,13 @@ class Layout extends StatelessWidget {
     );
   }
 
-  void goToChat(BuildContext context) {
+  void goToChat(BuildContext context) async {
+    Map<String, dynamic> chatroom = await fetchChatroom();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => const ChatScreen(),
+        builder: (BuildContext context) => ChatScreen(
+          chatroomId: chatroom["chatroom_id"],
+        ),
       ),
     );
   }
