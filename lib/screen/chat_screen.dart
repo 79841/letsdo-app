@@ -48,14 +48,6 @@ class MessageInputBox extends StatelessWidget {
     final TextEditingController messageController = TextEditingController();
 
     return Container(
-      // decoration: const BoxDecoration(
-      //   border: Border(
-      //     top: BorderSide(
-      //       color: Colors.black87,
-      //       width: 0.5,
-      //     ),
-      //   ),
-      // ),
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.fromLTRB(16.0, 0, 8.0, 0),
       child: Row(
@@ -100,10 +92,7 @@ class ChatroomCreator extends StatelessWidget {
         future: createChatroom(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data);
             chatroomId = snapshot.data?["id"];
-            print(chatroomId);
-            print("created");
             return _ChatContainer(
               auth: auth,
               chatroomId: chatroomId ?? 0,
@@ -114,8 +103,6 @@ class ChatroomCreator extends StatelessWidget {
         },
       );
     } else {
-      print(chatroomId);
-      print("else");
       return _ChatContainer(
         auth: auth,
         chatroomId: chatroomId ?? 0,
