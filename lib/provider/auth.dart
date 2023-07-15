@@ -1,10 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class Auth with ChangeNotifier {
-  final StreamController<bool> _auth = StreamController<bool>();
-  StreamController<bool> get auth => _auth;
+  // final StreamController<bool> _auth = StreamController<bool>();
+  // StreamController<bool> get auth => _auth;
+  bool _auth = false;
+  bool get auth => _auth;
+
   String _token = "";
   String get token => _token;
 
@@ -18,13 +19,23 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
+  // void authorize() {
+  //   _auth.add(true);
+  //   notifyListeners();
+  // }
+
+  // void unauthorize() {
+  //   _auth.add(false);
+  //   notifyListeners();
+  // }
+
   void authorize() {
-    _auth.add(true);
+    _auth = true;
     notifyListeners();
   }
 
   void unauthorize() {
-    _auth.add(false);
+    _auth = false;
     notifyListeners();
   }
 }

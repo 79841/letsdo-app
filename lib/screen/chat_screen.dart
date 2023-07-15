@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:ksica/Layout/main_layout.dart';
 import 'package:ksica/query/message.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../Layout/sub_layout.dart';
 import '../provider/auth.dart';
 import '../query/chatroom.dart';
 
@@ -22,7 +22,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return SubLayout(
       child: Consumer<Auth>(
         builder: (context, auth, child) {
           return ChatroomCreator(

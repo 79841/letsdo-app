@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../provider/auth.dart';
 import '../query/auth.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -84,12 +83,12 @@ class _LoginScreenState extends State<LoginScreen> {
             () {
               // if (!mounted) return;
               context.read<Auth>().authorize();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const HomeScreen(),
-                ),
-              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => const HomeScreen(),
+              //   ),
+              // );
             },
           );
         },

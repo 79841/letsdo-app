@@ -1,21 +1,55 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/screen/home_screen.dart';
+import 'package:provider/provider.dart';
 
-import '../query/profile.dart';
+import '../component/profile_image.dart';
+import '../provider/auth.dart';
+import '../query/chatroom.dart';
+import '../screen/chat_screen.dart';
+import '../screen/profile_screen.dart';
 
-class Layout extends StatelessWidget {
+class MainLayout extends StatelessWidget {
   final Widget child;
-  Layout({required this.child, super.key});
+  MainLayout({required this.child, super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void goToHome(BuildContext context) {
+  Future<void> signOut(BuildContext context, VoidCallback onSuccess) async {
+    if (!context.mounted) {
+      return;
+    }
+    await HomeScreen.storage.delete(
+      key: "Authorization",
+    );
+    Provider.of<Auth>(context, listen: false).removeToken();
+    onSuccess.call();
+  }
+
+  void _goToHome(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => const HomeScreen(),
+      ),
+    );
+  }
+
+  void _goToProfile(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => const ProfileScreen(),
+      ),
+    );
+  }
+
+  void _goToChat(BuildContext context) async {
+    Map<String, dynamic> chatroom = await fetchChatroom();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => ChatScreen(
+          chatroomId: chatroom["chatroom_id"],
+        ),
       ),
     );
   }
@@ -25,92 +59,115 @@ class Layout extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        // elevation: 0.0,
-        automaticallyImplyLeading: false,
-
-        title: GestureDetector(
+        shadowColor: Colors.transparent,
+        // leading: null,
+        leading: GestureDetector(
+          child: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
           onTap: () {
             _scaffoldKey.currentState?.openDrawer();
           },
-          child: const Text(
-            "KSICA",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20.0,
-            ),
+        ),
+        backgroundColor: const Color(0xFAFAFAFA),
+
+        title: const Text(
+          "KSICA",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20.0,
           ),
         ),
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.black,
-              ),
-              child: Column(
-                children: [
-                  const Text(
-                    "Menu",
-                    // style: TextStyle(color: Colors.white),
-                  ),
-                  FutureBuilder<Uint8List>(
-                    future: fetchProfileImage(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Container(
-                          width: 150.0,
-                          height: 150.0,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100.0),
-                            color: Colors.black,
-                          ),
-                          child: Container(
-                            width: 100.0,
-                            height: 100.0,
-                            color: Colors.blue,
-                            child: Image.memory(
-                              snapshot.data!,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  )
-                ],
+            const DrawerHeader(
+              child: MouseRegion(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileImage(
+                      profileImageSize: 50.0,
+                    ),
+                    _Profile(),
+                  ],
+                ),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('홈'),
               onTap: () {
-                // 홈 메뉴 선택 시 수행할 동작
+                _scaffoldKey.currentState?.closeDrawer();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('프로필'),
+              onTap: () => _goToProfile(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.message),
+              title: const Text('메세지'),
+              onTap: () {
+                // 메뉴 항목 선택 시 수행할 동작
+                // 예시: 메시지 화면으로 이동
+                Navigator.pop(context);
+                // TODO: 메시지 화면으로 이동하는 동작 추가
               },
             ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('설정'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('로그아웃'),
               onTap: () {
-                // 설정 메뉴 선택 시 수행할 동작
+                signOut(
+                  context,
+                  () {
+                    context.read<Auth>().unauthorize();
+                  },
+                );
               },
             ),
           ],
         ),
       ),
       body: child,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => goToChat(context),
-      //   child: const Icon(
-      //     Icons.chat_bubble_rounded,
-      //     color: Colors.white,
-      //   ),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _goToChat(context),
+        backgroundColor: Colors.grey.shade900,
+        child: const Icon(Icons.chat_bubble_rounded),
+      ),
+    );
+  }
+}
+
+class _Profile extends StatelessWidget {
+  const _Profile();
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, dynamic> token = JwtDecoder.decode(
+      Provider.of<Auth>(
+        context,
+        listen: false,
+      ).token,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(token["username"]),
+        Text(token["email"]),
+      ],
     );
   }
 }

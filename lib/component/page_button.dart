@@ -18,7 +18,7 @@ class PageButton extends StatelessWidget {
         onPressed: onPressed,
         child: Icon(
           icon,
-          color: Colors.black,
+          color: Colors.grey.shade500,
           size: 50.0,
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/check_list.dart';
+import '../query/check_list.dart';
 
 class ToDo extends StatefulWidget {
   final Map toDo;
@@ -16,7 +17,7 @@ class _ToDoState extends State<ToDo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.95,
+      width: 380.0,
       height: 50.0,
       margin: const EdgeInsets.symmetric(vertical: 3.0),
       padding: const EdgeInsets.all(10.0),
@@ -87,9 +88,12 @@ class _ToDoCheckBoxState extends State<ToDoCheckBox> {
       checkColor: Colors.white,
       fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
-      onChanged: (bool? value) {
-        Provider.of<CheckList>(context, listen: false)
+      onChanged: (bool? value) async {
+        await Provider.of<CheckList>(context, listen: false)
             .updateCheckStates(widget.code, value ?? false);
+        await updateCheckList(
+            Provider.of<CheckList>(context, listen: false).checkStates);
+        await Provider.of<CheckList>(context, listen: false).fetchCheckStates();
         setState(() {
           isChecked = value!;
         });

@@ -34,3 +34,19 @@ Future<List<dynamic>> fetchCheckList() async {
   final response = await http.get(url, headers: headers);
   return json.decode(response.body);
 }
+
+Future<List<dynamic>> fetchCheckListForPeriod(
+    String startDate, String endDate) async {
+  const storage = FlutterSecureStorage();
+  String? token = await storage.read(key: "Authorization");
+  Map<String, String> headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": token.toString(),
+  };
+
+  final url = Uri.parse(
+      "$SERVER_URL/checklist/dates?start_date=$startDate&end_date=$endDate");
+  final response = await http.get(url, headers: headers);
+  return json.decode(response.body);
+}
