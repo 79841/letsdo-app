@@ -3,10 +3,9 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../component/chat_button.dart';
 import '../component/profile_image.dart';
 import '../provider/auth.dart';
-import '../query/chatroom.dart';
-import '../screen/chat_screen.dart';
 import '../screen/profile_screen.dart';
 
 class MainLayout extends StatelessWidget {
@@ -39,17 +38,6 @@ class MainLayout extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => const ProfileScreen(),
-      ),
-    );
-  }
-
-  void _goToChat(BuildContext context) async {
-    Map<String, dynamic> chatroom = await fetchChatroom();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => ChatScreen(
-          chatroomId: chatroom["chatroom_id"],
-        ),
       ),
     );
   }
@@ -141,11 +129,12 @@ class MainLayout extends StatelessWidget {
         ),
       ),
       body: child,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _goToChat(context),
-        backgroundColor: Colors.grey.shade900,
-        child: const Icon(Icons.chat_bubble_rounded),
-      ),
+      floatingActionButton: const ChatButton(),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => _goToChat(context),
+      //   backgroundColor: Colors.grey.shade900,
+      //   child: const Icon(Icons.chat_bubble_rounded),
+      // ),
     );
   }
 }

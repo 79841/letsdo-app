@@ -31,6 +31,9 @@ Future<Map<String, dynamic>> createChatroom() async {
   final url = Uri.parse("$SERVER_URL/chatroom/");
   final response = await http.post(url, headers: headers);
   dynamic decodedResposne = json.decode(response.body);
+  print("decode response");
+  print(decodedResposne);
   Map<String, dynamic> chatroom = decodedResposne;
+  print(chatroom);
   return chatroom;
 }

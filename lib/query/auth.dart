@@ -10,7 +10,7 @@ Future<Response> signInWithEmailAndPassword(
     "Accept": "application/json"
   };
 
-  final url = Uri.parse('http://141.164.51.245:8000/auth/');
+  final url = Uri.parse('$SERVER_URL/auth/');
   final response = await http.post(
     url,
     body: json.encode({"email": email, "password": password}),

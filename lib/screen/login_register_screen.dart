@@ -29,6 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = await signInWithEmailAndPassword(
         _controllerEmail.text, _controllerPassword.text);
 
+    print(response.body);
+
     final token = json.decode(response.body)['Authorization'];
     await storage.write(
       key: "Authorization",

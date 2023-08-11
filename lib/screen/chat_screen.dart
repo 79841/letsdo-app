@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../Layout/sub_layout.dart';
+import '../config.dart';
 import '../provider/auth.dart';
 import '../query/chatroom.dart';
 
@@ -95,7 +96,7 @@ class ChatroomCreator extends StatelessWidget {
             chatroomId = snapshot.data?["id"];
             return _ChatContainer(
               auth: auth,
-              chatroomId: chatroomId ?? 0,
+              chatroomId: chatroomId!,
             );
           } else {
             return const CircularProgressIndicator();
@@ -163,7 +164,7 @@ class _ChatContainerState extends State<_ChatContainer> {
         }
         _channel = IOWebSocketChannel.connect(
           Uri.parse(
-              'ws://141.164.51.245:8000/message/ws/${widget.chatroomId}?token=${widget.auth.token}'),
+              '$WEBSOCKET_SERVER_URL/message/ws/${widget.chatroomId}?token=${widget.auth.token}'),
         );
         Map<String, dynamic> token = {};
         if (widget.auth.token != null) {
@@ -180,6 +181,11 @@ class _ChatContainerState extends State<_ChatContainer> {
                   Map<String, dynamic> message = json.decode(snapshot.data);
                   _addMessage(message);
                 }
+                if (_messages.isNotEmpty) {
+                  updateLastReadMessage(
+                      widget.chatroomId, _messages[_messages.length - 1]["id"]);
+                }
+
                 return Expanded(
                   flex: 7,
                   child: _MessageBoxes(
