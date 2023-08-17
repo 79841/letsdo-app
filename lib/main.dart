@@ -15,6 +15,7 @@ Future<void> main() async {
   // Intl.defaultLocale = 'ko_KR'; // 앱의 로케일 설정 (한국어)
   // await initializeDateFormatting(); // 날짜 및 시간 형식 설정
   // tz.setLocalLocation(tz.getLocation(timeZone));
+
   runApp(
     MultiProvider(
       providers: [

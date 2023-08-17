@@ -23,7 +23,6 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
             .checkStates
             .where((e) => e["done"] == true)
             .length;
-
         return _DonutChart(
           todoListCount: todoListCount,
           checkListCount: checkListCount,

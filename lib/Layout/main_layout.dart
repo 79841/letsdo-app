@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/screen/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../component/chat_button.dart';
 import '../component/profile_image.dart';
@@ -39,6 +40,19 @@ class MainLayout extends StatelessWidget {
       MaterialPageRoute(
         builder: (BuildContext context) => const ProfileScreen(),
       ),
+    );
+  }
+
+  void _goToWebSite() {
+    launchUrl(
+      Uri.parse('http://www.kscia.org/kscia/'),
+    );
+  }
+
+  void _goToWebSiteNotification() {
+    launchUrl(
+      Uri.parse(
+          'http://www.kscia.org/kscia/bbs/board.php?bo_table=bo_01&sca=%EA%B3%B5%EA%B3%A0'),
     );
   }
 
@@ -99,6 +113,16 @@ class MainLayout extends StatelessWidget {
               onTap: () => _goToProfile(context),
             ),
             ListTile(
+              leading: const Icon(Icons.web),
+              title: const Text('홈페이지'),
+              onTap: () => _goToWebSite(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications_none),
+              title: const Text('공지'),
+              onTap: () => _goToWebSiteNotification(),
+            ),
+            ListTile(
               leading: const Icon(Icons.message),
               title: const Text('메세지'),
               onTap: () {
@@ -108,11 +132,11 @@ class MainLayout extends StatelessWidget {
                 // TODO: 메시지 화면으로 이동하는 동작 추가
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('설정'),
-              onTap: () {},
-            ),
+            // ListTile(
+            //   leading: const Icon(Icons.settings),
+            //   title: const Text('설정'),
+            //   onTap: () {},
+            // ),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('로그아웃'),

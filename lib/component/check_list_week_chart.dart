@@ -50,7 +50,6 @@ class CheckListWeekGraph extends StatelessWidget {
 
             if (snapshot.hasData) {
               List<dynamic> checkList = snapshot.data!;
-              print(checkList);
               for (var checkState in checkList) {
                 int indexForDate = DateTime.parse(checkState["date"])
                     .difference(startOfWeek)

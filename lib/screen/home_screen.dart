@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../Layout/main_layout.dart';
 import '../component/check_list.dart';
 import '../component/check_list_week_chart.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../component/check_list_today_chart.dart';
 import '../provider/auth.dart';
 import '../provider/todo_list.dart';
@@ -142,12 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }),
       ),
-    );
-  }
-
-  void goToWebSite() {
-    launchUrl(
-      Uri.parse('http://www.kscia.org/kscia/'),
     );
   }
 

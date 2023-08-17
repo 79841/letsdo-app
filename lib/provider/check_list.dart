@@ -8,7 +8,6 @@ class CheckList with ChangeNotifier {
 
   Future<void> fetchCheckStates() async {
     _checkStates = await fetchCheckList();
-    print(_checkStates);
     notifyListeners();
   }
 

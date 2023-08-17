@@ -16,7 +16,7 @@ Future<List<Map<String, dynamic>>> fetchMessages(int chatroomId) async {
 
   final url = Uri.parse("$SERVER_URL/$apiPrefix/$chatroomId");
   final response = await http.get(url, headers: headers);
-  List<dynamic> decodedResponse = json.decode(response.body);
+  List<dynamic> decodedResponse = json.decode(utf8.decode(response.bodyBytes));
   List<Map<String, dynamic>> messages =
       decodedResponse.cast<Map<String, dynamic>>().toList();
   return messages;
