@@ -7,10 +7,11 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../config.dart';
 import '../provider/auth.dart';
 import '../query/chatroom.dart';
-import '../screen/chat_screen.dart';
+import '../utils/navigator.dart';
 
 class ChatButton extends StatefulWidget {
-  const ChatButton({super.key});
+  final double iconSize;
+  const ChatButton({required this.iconSize, super.key});
 
   @override
   State<ChatButton> createState() => ChatButtonState();
@@ -26,19 +27,17 @@ class ChatButtonState extends State<ChatButton> {
     super.dispose();
   }
 
-  void _goToChat(BuildContext context, int chatroomId) async {
-    // Map<String, dynamic> chatroom = await fetchChatroom();
-    Navigator.of(context)
-        .push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => ChatScreen(
-          chatroomId: chatroomId,
-        ),
+  Widget chatIcon(int chatroomId, double size) {
+    return IconButton(
+      onPressed: () => goToChat(
+        context,
+        chatroomId,
+        (value) {
+          setState(() {});
+        },
       ),
-    )
-        .then((value) {
-      setState(() {});
-    });
+      icon: Icon(Icons.chat_bubble_outline, size: size),
+    );
   }
 
   @override
@@ -66,11 +65,7 @@ class ChatButtonState extends State<ChatButton> {
                   if (unreadMessageCount > 0) {
                     return Stack(
                       children: [
-                        FloatingActionButton(
-                          onPressed: () => _goToChat(context, chatroomId),
-                          backgroundColor: Colors.grey.shade900,
-                          child: const Icon(Icons.chat_bubble_rounded),
-                        ),
+                        chatIcon(chatroomId, widget.iconSize),
                         Container(
                           width: 20.0,
                           height: 20.0,
@@ -86,11 +81,7 @@ class ChatButtonState extends State<ChatButton> {
                       ],
                     );
                   } else {
-                    return FloatingActionButton(
-                      onPressed: () => _goToChat(context, chatroomId),
-                      backgroundColor: Colors.grey.shade900,
-                      child: const Icon(Icons.chat_bubble_rounded),
-                    );
+                    return chatIcon(chatroomId, widget.iconSize);
                   }
                 },
               );
