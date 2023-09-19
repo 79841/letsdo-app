@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ksica/config/style.dart';
+import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../provider/check_list.dart';
@@ -23,9 +25,68 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
             .checkStates
             .where((e) => e["done"] == true)
             .length;
-        return _DonutChart(
-          todoListCount: todoListCount,
-          checkListCount: checkListCount,
+        // return _DonutChart(
+        //   todoListCount: todoListCount,
+        //   checkListCount: checkListCount,
+        // );
+
+        return Container(
+          // alignment: Alignment.center,
+          // height: 200.0,
+
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.width * 0.50,
+          decoration: const BoxDecoration(
+            color: darkBlue,
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: _DonutChart(
+                    todoListCount: todoListCount,
+                    checkListCount: checkListCount,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Text(
+                          "$todoListCount개의 할일 중\n$checkListCount개를 완료했어요.",
+                          style: const TextStyle(
+                            color: mainWhite,
+                          ),
+                        ),
+                      ),
+                      hspace(20.0),
+                      FractionallySizedBox(
+                        widthFactor: 0.7,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
+                            color: mainBlue,
+                          ),
+                          height: 40.0,
+                          alignment: Alignment.center,
+                          child: const Text("할 일 확인하기"),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
         );
       },
     );
@@ -54,23 +115,48 @@ class _DonutChartState extends State<_DonutChart> {
   @override
   Widget build(BuildContext context) {
     final List<_ChartData> data = [
-      _ChartData('Completed', widget.checkListCount, Colors.black),
+      _ChartData('Completed', widget.checkListCount, mainWhite),
       _ChartData(
-          'Not yet', widget.todoListCount - widget.checkListCount, Colors.grey),
+          'Not yet', widget.todoListCount - widget.checkListCount, mainGray),
     ];
 
     return SfCircularChart(
       legend: const Legend(
-        isVisible: true,
+        isVisible: false,
       ),
+      annotations: <CircularChartAnnotation>[
+        // CircularChartAnnotation(
+        //   widget: Container(
+        //     child: PhysicalModel(
+        //       shape: BoxShape.circle,
+        //       elevation: 0.5,
+        //       shadowColor: Colors.black,
+        //       color: const Color.fromRGBO(230, 230, 230, 1),
+        //       child: Container(),
+        //     ),
+        //   ),
+        // ),
+        CircularChartAnnotation(
+          widget: Container(
+            child: Text(
+              "${widget.checkListCount}/${widget.todoListCount}",
+              style: const TextStyle(
+                color: mainWhite,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+      ],
       series: <CircularSeries>[
-        PieSeries<_ChartData, String>(
+        DoughnutSeries<_ChartData, String>(
           dataSource: data,
+          innerRadius: "67%",
           xValueMapper: (_ChartData data, _) => data.label,
           yValueMapper: (_ChartData data, _) => data.value,
-          // pointColorMapper: (_ChartData data, _) => data.color,
+          pointColorMapper: (_ChartData data, _) => data.color,
           dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
+            isVisible: false,
             // labelPosition: ChartDataLabelPosition.outside,
           ),
         ),

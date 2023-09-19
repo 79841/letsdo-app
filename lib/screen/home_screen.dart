@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:ksica/component/floating_box.dart';
 import 'package:provider/provider.dart';
 import '../Layout/main_layout.dart';
 import '../component/check_list.dart';
@@ -78,12 +77,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.centerLeft,
                         child: const Text("Today"),
                       ),
-                      const FloatingBox(
-                        // alignment: Alignment.center,
-                        height: 230.0,
-                        width: 380.0,
-                        child: CheckListTodayChart(),
-                      ),
+                      const CheckListTodayChart(),
+                      // Container(
+                      //   color: Colors.yellow,
+                      //   // alignment: Alignment.center,
+                      //   // height: 200.0,
+                      //   width: MediaQuery.of(context).size.width,
+                      //   height: MediaQuery.of(context).size.width * 0.45,
+                      //   child: Container(
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //       children: [
+                      //         const Expanded(
+                      //           flex: 45,
+                      //           child: CheckListTodayChart(),
+                      //         ),
+                      //         Expanded(
+                      //           flex: 55,
+                      //           child: Column(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Container(
+                      //                 child: const Text("수행도"),
+                      //               ),
+                      //               Container(
+                      //                 child: const Text("link"),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   _hSpace(60.0),
@@ -95,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.centerLeft,
                         child: const Text("Week"),
                       ),
-                      const FloatingBox(
+                      const SizedBox(
                         height: 200.0,
                         width: 380.0,
                         child: CheckListWeekGraph(),

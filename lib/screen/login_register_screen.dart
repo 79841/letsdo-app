@@ -13,12 +13,17 @@ import '../utils/space.dart';
 class LoginScreenStyle {
   static const double logoFontSize = 25.0;
   static const FontWeight logoFontWeight = FontWeight.w500;
-  static const double infoFontSize = 20.0;
-  static const FontWeight infoFontWeight = FontWeight.w500;
+  static const double infoFontSize = 17.0;
+  static const FontWeight infoFontWeight = FontWeight.w600;
   static const double inputFontSize = 15.0;
   static const FontWeight inputFontWeight = FontWeight.w400;
+  static const double buttonFontSize = 16.0;
+  static const FontWeight buttonFontWeight = FontWeight.w600;
+  static const double labelFontSize = 12.0;
+  static const FontWeight labelFontWeight = FontWeight.w500;
   static const double boxHeight = 50.0;
   static const double boxWidth = 300.0;
+  static const double bottomMargin = 20.0;
 }
 
 class LoginScreen extends StatefulWidget {
@@ -71,14 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _loginInfo() {
+  Widget _info(String text) {
     return Container(
       alignment: Alignment.center,
-      child: const Text(
-        "이메일로 로그인",
-        style: TextStyle(
-          fontSize: LoginScreenStyle.inputFontSize,
-          fontWeight: LoginScreenStyle.inputFontWeight,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: LoginScreenStyle.infoFontSize,
+          fontWeight: LoginScreenStyle.infoFontWeight,
         ),
       ),
     );
@@ -147,7 +152,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text(
           '로그인',
           style: TextStyle(
-            fontSize: LoginScreenStyle.inputFontSize,
+            fontSize: LoginScreenStyle.buttonFontSize,
+            fontWeight: LoginScreenStyle.buttonFontWeight,
           ),
         ),
       ),
@@ -182,7 +188,8 @@ class _LoginScreenState extends State<LoginScreen> {
           "회원가입",
           style: TextStyle(
             color: mainWhite,
-            fontSize: LoginScreenStyle.inputFontSize,
+            fontSize: LoginScreenStyle.buttonFontSize,
+            fontWeight: LoginScreenStyle.buttonFontWeight,
           ),
         ),
       ),
@@ -193,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       child: Column(
         children: [
-          _loginInfo(),
+          _info("이메일로 로그인"),
           hspace(LoginScreenStyle.bottomMargin),
           _entryField('email', _controllerEmail),
           hspace(LoginScreenStyle.bottomMargin),
@@ -212,12 +219,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _registerButton(
     BuildContext context,
   ) {
-    return Container(
-      color: darkBlue,
+    return SizedBox(
+      // color: darkBlue,
       width: LoginScreenStyle.boxWidth,
       height: LoginScreenStyle.boxHeight,
       child: ElevatedButton(
         style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(darkBlue),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0), // 원하는 둥근 모서리 반지름 설정
@@ -240,14 +248,42 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _registerMode(BuildContext context) {
-    return Column(
-      children: [
-        _entryField('email', _controllerEmail),
-        _entryField('username', _controllerUserName),
-        _entryField('password', _controllerPassword),
-        _errorMessage(),
-        _registerButton(context),
-      ],
+    return SizedBox(
+      width: LoginScreenStyle.boxWidth,
+      child: Column(
+        children: [
+          _info("회원가입"),
+          hspace(LoginScreenStyle.bottomMargin),
+          _label("email"),
+          _entryField('email', _controllerEmail),
+          hspace(LoginScreenStyle.bottomMargin),
+          _label("username"),
+
+          _entryField('username', _controllerUserName),
+          hspace(LoginScreenStyle.bottomMargin),
+          _label("password"),
+
+          _entryField('password', _controllerPassword),
+          hspace(LoginScreenStyle.bottomMargin),
+
+          // _errorMessage(),
+          _registerButton(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _label(String text) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 2.0),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: LoginScreenStyle.labelFontSize,
+          fontWeight: LoginScreenStyle.labelFontWeight,
+        ),
+      ),
     );
   }
 
