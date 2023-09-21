@@ -6,14 +6,37 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../provider/check_list.dart';
 import '../provider/todo_list.dart';
 
+class CheckListTodayChartStyle {
+  static const double titleFontSize = 15.0;
+  static const FontWeight titleFontWeight = FontWeight.w400;
+  static const double normalFontSize = 15.0;
+  static const FontWeight normalFontWeight = FontWeight.w600;
+  static const double achievementFontSize = 18.0;
+  static const FontWeight achievementFontWeight = FontWeight.w900;
+}
+
 class CheckListTodayChart extends StatefulWidget {
-  const CheckListTodayChart({super.key});
+  final GlobalKey targetKey;
+  final ScrollController controller;
+  const CheckListTodayChart(
+      {required this.targetKey, required this.controller, super.key});
 
   @override
   State<CheckListTodayChart> createState() => _CheckListTodayChartState();
 }
 
 class _CheckListTodayChartState extends State<CheckListTodayChart> {
+  _scrollToTarget() {
+    final targetPosition =
+        widget.targetKey.currentContext!.findRenderObject() as RenderBox;
+    final position = targetPosition.localToGlobal(Offset.zero);
+    widget.controller.animateTo(
+      position.dy,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CheckList>(
@@ -30,63 +53,94 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
         //   checkListCount: checkListCount,
         // );
 
-        return Container(
-          // alignment: Alignment.center,
-          // height: 200.0,
-
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width * 0.50,
-          decoration: const BoxDecoration(
-            color: darkBlue,
-            borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
-            ),
-          ),
-          child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: _DonutChart(
-                    todoListCount: todoListCount,
-                    checkListCount: checkListCount,
-                  ),
+        return Column(
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                " 오늘의 달성도를 확인해 주세요",
+                style: TextStyle(
+                  fontSize: CheckListTodayChartStyle.titleFontSize,
+                  fontWeight: CheckListTodayChartStyle.titleFontWeight,
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Text(
-                          "$todoListCount개의 할일 중\n$checkListCount개를 완료했어요.",
-                          style: const TextStyle(
-                            color: mainWhite,
-                          ),
-                        ),
-                      ),
-                      hspace(20.0),
-                      FractionallySizedBox(
-                        widthFactor: 0.7,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20.0),
-                            ),
-                            color: mainBlue,
-                          ),
-                          height: 40.0,
-                          alignment: Alignment.center,
-                          child: const Text("할 일 확인하기"),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
+            hspace(5.0),
+            Container(
+              // alignment: Alignment.center,
+              // height: 200.0,
+
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width * 0.50,
+              decoration: const BoxDecoration(
+                color: darkBlue,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
+                ),
+              ),
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: _DonutChart(
+                        todoListCount: todoListCount,
+                        checkListCount: checkListCount,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Text(
+                              "$todoListCount개의 할일 중\n$checkListCount개를 완료했어요.",
+                              style: const TextStyle(
+                                color: mainWhite,
+                                fontSize:
+                                    CheckListTodayChartStyle.normalFontSize,
+                                fontWeight:
+                                    CheckListTodayChartStyle.normalFontWeight,
+                              ),
+                            ),
+                          ),
+                          hspace(20.0),
+                          FractionallySizedBox(
+                            widthFactor: 0.7,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    const MaterialStatePropertyAll(mainBlue),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                ),
+                              ),
+                              onPressed: _scrollToTarget,
+                              child: const Text(
+                                "할 일 확인하기",
+                                style: TextStyle(
+                                  color: mainBlack,
+                                  fontSize:
+                                      CheckListTodayChartStyle.normalFontSize,
+                                  fontWeight:
+                                      CheckListTodayChartStyle.normalFontWeight,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -125,17 +179,6 @@ class _DonutChartState extends State<_DonutChart> {
         isVisible: false,
       ),
       annotations: <CircularChartAnnotation>[
-        // CircularChartAnnotation(
-        //   widget: Container(
-        //     child: PhysicalModel(
-        //       shape: BoxShape.circle,
-        //       elevation: 0.5,
-        //       shadowColor: Colors.black,
-        //       color: const Color.fromRGBO(230, 230, 230, 1),
-        //       child: Container(),
-        //     ),
-        //   ),
-        // ),
         CircularChartAnnotation(
           widget: Container(
             child: Text(

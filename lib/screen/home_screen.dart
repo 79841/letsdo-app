@@ -22,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey targetKey = GlobalKey();
+  final ScrollController _controller = ScrollController();
+
   Future<void> signOut(BuildContext context, VoidCallback onSuccess) async {
     if (!context.mounted) {
       return;
@@ -57,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MainLayout(
       child: SingleChildScrollView(
+        controller: _controller,
         child: FutureBuilder<List<dynamic>>(
           future: Future.wait([
             Provider.of<clp.CheckList>(context, listen: false)
@@ -70,68 +74,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-                        alignment: Alignment.centerLeft,
-                        child: const Text("Today"),
-                      ),
-                      const CheckListTodayChart(),
-                      // Container(
-                      //   color: Colors.yellow,
-                      //   // alignment: Alignment.center,
-                      //   // height: 200.0,
-                      //   width: MediaQuery.of(context).size.width,
-                      //   height: MediaQuery.of(context).size.width * 0.45,
-                      //   child: Container(
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //       children: [
-                      //         const Expanded(
-                      //           flex: 45,
-                      //           child: CheckListTodayChart(),
-                      //         ),
-                      //         Expanded(
-                      //           flex: 55,
-                      //           child: Column(
-                      //             mainAxisAlignment: MainAxisAlignment.center,
-                      //             children: [
-                      //               Container(
-                      //                 child: const Text("수행도"),
-                      //               ),
-                      //               Container(
-                      //                 child: const Text("link"),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
+                  // Column(
+                  // children: [
+                  CheckListTodayChart(
+                    targetKey: targetKey,
+                    controller: _controller,
                   ),
+                  // ],
+                  // ),
                   _hSpace(60.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-                        alignment: Alignment.centerLeft,
-                        child: const Text("Week"),
-                      ),
-                      const SizedBox(
-                        height: 200.0,
-                        width: 380.0,
-                        child: CheckListWeekGraph(),
-                      ),
-                    ],
-                  ),
+                  const CheckListWeekGraph(),
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     Container(
+                  //       margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
+                  //       alignment: Alignment.centerLeft,
+                  //       child: const Text("Week"),
+                  //     ),
+                  //     const SizedBox(
+                  //       // height: 200.0,
+                  //       // width: 380.0,
+                  //       child: CheckListWeekGraph(),
+                  //     ),
+                  //   ],
+                  // ),
                   _hSpace(60.0),
                   Column(
                     children: <Widget>[
                       Container(
+                        key: targetKey,
                         margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
                         alignment: Alignment.centerLeft,
                         child: const Text("Check List"),
