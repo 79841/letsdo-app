@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/component/bottom_bar.dart';
 import 'package:ksica/config/style.dart';
+import 'package:ksica/query/chatroom.dart';
 import 'package:ksica/screen/home_screen.dart';
+import 'package:ksica/utils/navigator.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../component/profile_image.dart';
 import '../provider/auth.dart';
+import '../provider/chatroom.dart';
 import '../screen/profile_screen.dart';
 
 class MainLayoutStyle {
@@ -58,147 +60,145 @@ class MainLayout extends StatelessWidget {
     );
   }
 
-  void _goToWebSite() {
-    launchUrl(
-      Uri.parse('http://www.kscia.org/kscia/'),
-    );
-  }
-
-  void _goToWebSiteNotification() {
-    launchUrl(
-      Uri.parse(
-          'http://www.kscia.org/kscia/bbs/board.php?bo_table=bo_01&sca=%EA%B3%B5%EA%B3%A0'),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        shadowColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        // actions: [
-        //   Container(),
-        // ],
-        backgroundColor: MainLayoutStyle.bgColor,
-        title: const Text(
-          "KSICA",
-          style: TextStyle(
-            color: MainLayoutStyle.appBarTitleColor,
-            fontSize: 20.0,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: MainLayoutStyle.drawerHeaderHeight,
-              child: DrawerHeader(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        "KSCIA",
-                        style: TextStyle(
-                            fontSize: MainLayoutStyle.drawerHeaderFontSize,
-                            fontWeight: MainLayoutStyle.drawerHeaderFontWeight),
+    return FutureBuilder(
+        future: fetchChatroom(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            Provider.of<Chatroom>(context, listen: false)
+                .setChatroomId(snapshot.data!["chatroom_id"]);
+          }
+          return Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              shadowColor: Colors.transparent,
+              automaticallyImplyLeading: false,
+              // actions: [
+              //   Container(),
+              // ],
+              backgroundColor: MainLayoutStyle.bgColor,
+              title: const Text(
+                "KSICA",
+                style: TextStyle(
+                  color: MainLayoutStyle.appBarTitleColor,
+                  fontSize: 20.0,
+                ),
+              ),
+              centerTitle: true,
+            ),
+            endDrawer: Drawer(
+              child: ListView(
+                children: <Widget>[
+                  SizedBox(
+                    height: MainLayoutStyle.drawerHeaderHeight,
+                    child: DrawerHeader(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                            alignment: Alignment.centerLeft,
+                            child: const Text(
+                              "KSCIA",
+                              style: TextStyle(
+                                  fontSize:
+                                      MainLayoutStyle.drawerHeaderFontSize,
+                                  fontWeight:
+                                      MainLayoutStyle.drawerHeaderFontWeight),
+                            ),
+                          ),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ProfileImage(
+                                profileImageSize:
+                                    MainLayoutStyle.profileImageSize,
+                              ),
+                              _Profile(),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ProfileImage(
-                          profileImageSize: MainLayoutStyle.profileImageSize,
-                        ),
-                        _Profile(),
-                      ],
+                  ),
+                  ListTile(
+                    trailing: const Icon(
+                      Icons.link,
+                      color: mainBlack,
                     ),
-                  ],
-                ),
+                    title: const Text(
+                      '홈페이지 방문하기',
+                      style: TextStyle(
+                        color: mainBlack,
+                      ),
+                    ),
+                    onTap: () {
+                      _scaffoldKey.currentState?.closeDrawer();
+                    },
+                  ),
+                  ListTile(
+                    trailing: const Icon(
+                      Icons.link,
+                      color: mainBlack,
+                    ),
+                    title: const Text(
+                      '공지사항',
+                      style: TextStyle(
+                        color: mainBlack,
+                      ),
+                    ),
+                    onTap: () => _goToProfile(context),
+                  ),
+                  ListTile(
+                    trailing: const Icon(
+                      Icons.chat_bubble_outline,
+                      color: mainBlack,
+                    ),
+                    title: const Text(
+                      '상담하기',
+                      style: TextStyle(
+                        color: mainBlack,
+                      ),
+                    ),
+                    onTap: () => goToWebSite(),
+                  ),
+                  ListTile(
+                    trailing: const Icon(
+                      Icons.logout,
+                      color: mainBlack,
+                    ),
+                    title: const Text(
+                      '로그아웃',
+                      style: TextStyle(
+                        color: mainBlack,
+                      ),
+                    ),
+                    onTap: () {
+                      signOut(
+                        context,
+                        () {
+                          context.read<Auth>().unauthorize();
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
-            ListTile(
-              trailing: const Icon(
-                Icons.link,
-                color: mainBlack,
-              ),
-              title: const Text(
-                '홈페이지 방문하기',
-                style: TextStyle(
-                  color: mainBlack,
-                ),
-              ),
-              onTap: () {
-                _scaffoldKey.currentState?.closeDrawer();
-              },
+            backgroundColor: MainLayoutStyle.bgColor,
+            body: child,
+            bottomNavigationBar: BottomBar(
+              scaffoldKey: _scaffoldKey,
             ),
-            ListTile(
-              trailing: const Icon(
-                Icons.link,
-                color: mainBlack,
-              ),
-              title: const Text(
-                '공지사항',
-                style: TextStyle(
-                  color: mainBlack,
-                ),
-              ),
-              onTap: () => _goToProfile(context),
-            ),
-            ListTile(
-              trailing: const Icon(
-                Icons.chat_bubble_outline,
-                color: mainBlack,
-              ),
-              title: const Text(
-                '상담하기',
-                style: TextStyle(
-                  color: mainBlack,
-                ),
-              ),
-              onTap: () => _goToWebSite(),
-            ),
-            ListTile(
-              trailing: const Icon(
-                Icons.logout,
-                color: mainBlack,
-              ),
-              title: const Text(
-                '로그아웃',
-                style: TextStyle(
-                  color: mainBlack,
-                ),
-              ),
-              onTap: () {
-                signOut(
-                  context,
-                  () {
-                    context.read<Auth>().unauthorize();
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-      backgroundColor: MainLayoutStyle.bgColor,
-      body: child,
-      bottomNavigationBar: BottomBar(
-        scaffoldKey: _scaffoldKey,
-      ),
-      // floatingActionButton: const ChatButton(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => _goToChat(context),
-      //   backgroundColor: Colors.grey.shade900,
-      //   child: const Icon(Icons.chat_bubble_rounded),
-      // ),
-    );
+            // floatingActionButton: const ChatButton(),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () => _goToChat(context),
+            //   backgroundColor: Colors.grey.shade900,
+            //   child: const Icon(Icons.chat_bubble_rounded),
+            // ),
+          );
+        });
   }
 }
 

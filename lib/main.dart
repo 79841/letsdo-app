@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/provider/auth.dart';
+import 'package:ksica/provider/chatroom.dart';
 import 'package:ksica/provider/check_list.dart';
 import 'package:ksica/provider/todo_list.dart';
 import 'package:ksica/widget_tree.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => Auth()),
         ChangeNotifierProvider(create: (_) => TodoList()),
         ChangeNotifierProvider(create: (_) => CheckList()),
+        ChangeNotifierProvider(create: (_) => Chatroom()),
       ],
       child: const MyApp(),
     ),
@@ -69,7 +71,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: primaryBlack,
+        primaryColor: Colors.blue,
+        unselectedWidgetColor: Colors.white,
       ),
       home: const WidgetTree(),
     );

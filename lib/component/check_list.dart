@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/component/to_do.dart';
+import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import '../provider/todo_list.dart';
 import '../query/check_list.dart';
@@ -20,33 +21,45 @@ class _CheckListScreenState extends State<CheckList> {
     return true;
   }
 
-  Widget _CheckList() {
+  Widget _checkList() {
     return Container(
+      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
       width: MediaQuery.of(context).size.width,
-      // height: MediaQuery.of(context).size.height,
-      alignment: Alignment.center,
-      child: SizedBox(
-        width: 380.0,
-        // height: 700.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: Provider.of<TodoList>(context, listen: false).todoList.map(
-            (e) {
-              bool isChecked = false;
-              for (var v in Provider.of<clp.CheckList>(context, listen: false)
-                  .checkStates) {
-                if (e["code"] == v["code"] && v["done"] == true) {
-                  isChecked = true;
-                }
-              }
-              return ToDo(
-                toDo: e,
-                isChecked: isChecked,
-              );
-            },
-          ).toList(),
-        ),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "할 일",
+            ),
+          ),
+          hspace(15.0),
+          Container(
+            // height: MediaQuery.of(context).size.height,
+            // alignment: Alignment.center,
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children:
+                  Provider.of<TodoList>(context, listen: false).todoList.map(
+                (e) {
+                  bool isChecked = false;
+                  for (var v
+                      in Provider.of<clp.CheckList>(context, listen: false)
+                          .checkStates) {
+                    if (e["code"] == v["code"] && v["done"] == true) {
+                      isChecked = true;
+                    }
+                  }
+                  return ToDo(
+                    toDo: e,
+                    isChecked: isChecked,
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -80,7 +93,7 @@ class _CheckListScreenState extends State<CheckList> {
               future: _initCheckStates(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  return _CheckList();
+                  return _checkList();
                 }
                 return const Center(
                   child: CircularProgressIndicator(),

@@ -21,13 +21,13 @@ class _CheckListScreenState extends State<CheckListScreen> {
     return true;
   }
 
-  Widget _CheckList() {
+  Widget _checkList() {
     return Container(
       width: MediaQuery.of(context).size.width,
       // height: MediaQuery.of(context).size.height,
       alignment: Alignment.center,
       child: SizedBox(
-        width: 350.0,
+        // width: 350.0,
         // height: 700.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +78,7 @@ class _CheckListScreenState extends State<CheckListScreen> {
                 future: _initCheckStates(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    return _CheckList();
+                    return _checkList();
                   }
                   return const Center(
                     child: CircularProgressIndicator(),

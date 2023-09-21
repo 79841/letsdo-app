@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ksica/component/icon_navigation_bar.dart';
+import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import '../Layout/main_layout.dart';
 import '../component/check_list.dart';
@@ -69,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
           builder: (context, snapshot) {
             return Container(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(15.0),
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,8 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   // ],
                   // ),
-                  _hSpace(60.0),
+                  _hSpace(40.0),
                   const CheckListWeekGraph(),
+                  hspace(40.0),
+                  IconNavigationBar(
+                    pageContext: context,
+                  ),
                   // Column(
                   //   crossAxisAlignment: CrossAxisAlignment.center,
                   //   children: <Widget>[
@@ -99,19 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     ),
                   //   ],
                   // ),
+                  _hSpace(40.0),
+                  const CheckList(),
                   _hSpace(60.0),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        key: targetKey,
-                        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-                        alignment: Alignment.centerLeft,
-                        child: const Text("Check List"),
-                      ),
-                      const CheckList(),
-                    ],
-                  ),
-                  _hSpace(60.0),
+
                   // Row(
                   //   // crossAxisAlignment: CrossAxisAlignment.center,
                   //   mainAxisAlignment: MainAxisAlignment.center,

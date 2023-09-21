@@ -79,47 +79,91 @@ class CheckListWeekGraph extends StatelessWidget {
                   Radius.circular(10.0),
                 ),
               ),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: const Text("이번주"),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            alignment: Alignment.centerLeft,
+                            child: const Text("이번주"),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            color: mainBlack,
+                            size: 15.0,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Row(
-                      children: checkListForWeek.map(
-                        (e) {
-                          return Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: _DonutChart(
-                                    todoListCount: todoListCount,
-                                    checkListCount: e.count,
+                    Expanded(
+                      flex: 3,
+                      child: Row(
+                        children: checkListForWeek.asMap().entries.map(
+                          (e) {
+                            Color textColor, bgColor;
+                            if (e.value.date == dateFormat.format(today)) {
+                              textColor = mainWhite;
+                              bgColor = mainBlack;
+                            } else {
+                              textColor = mainBlack;
+                              bgColor = Colors.transparent;
+                            }
+                            if (daysOfWeek[e.key] == "일") {
+                              textColor = Colors.red;
+                            } else if (daysOfWeek[e.key] == "토") {
+                              textColor = darkBlue;
+                            }
+                            return Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: _DonutChart(
+                                      todoListCount: todoListCount,
+                                      checkListCount: e.value.count,
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    color: Colors.yellow,
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        alignment: Alignment.topCenter,
+                                        height: 22.0,
+                                        width: 22.0,
+                                        decoration: BoxDecoration(
+                                          color: bgColor,
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(11.0),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          daysOfWeek[e.key],
+                                          style: TextStyle(
+                                            color: textColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                // Container(
-                                //   child: const Text("a"),
-                                // )
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
+                                  // Container(
+                                  //   child: const Text("a"),
+                                  // )
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
@@ -164,8 +208,8 @@ class _DonutChartState extends State<_DonutChart> {
       series: <CircularSeries>[
         DoughnutSeries<_ChartData, String>(
           dataSource: data,
-          innerRadius: "60%",
-          radius: "105%",
+          innerRadius: "55%",
+          radius: "135%",
           xValueMapper: (_ChartData data, _) => data.label,
           yValueMapper: (_ChartData data, _) => data.value,
           pointColorMapper: (_ChartData data, _) => data.color,

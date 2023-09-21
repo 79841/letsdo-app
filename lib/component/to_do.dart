@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ksica/config/style.dart';
+import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/check_list.dart';
@@ -17,34 +19,17 @@ class _ToDoState extends State<ToDo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 380.0,
-      height: 50.0,
-      margin: const EdgeInsets.symmetric(vertical: 3.0),
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            blurRadius: 5.0,
-            spreadRadius: 0.0,
-            offset: const Offset(0, 7),
-          )
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 15.0),
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ToDoCheckBox(
+            code: widget.toDo['code'],
+            isChecked: widget.isChecked,
+          ),
+          wspace(20.0),
+          Text(widget.toDo['name']),
         ],
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: SizedBox(
-        width: 10.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(widget.toDo['name']),
-            ToDoCheckBox(
-              code: widget.toDo['code'],
-              isChecked: widget.isChecked,
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -81,23 +66,41 @@ class _ToDoCheckBoxState extends State<ToDoCheckBox> {
       if (states.any(interactiveStates.contains)) {
         return Colors.blue;
       }
-      return Colors.red;
+      return darkBlue;
     }
 
-    return Checkbox(
-      checkColor: Colors.white,
-      fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
-      onChanged: (bool? value) async {
-        await Provider.of<CheckList>(context, listen: false)
-            .updateCheckStates(widget.code, value ?? false);
-        await updateCheckList(
-            Provider.of<CheckList>(context, listen: false).checkStates);
-        await Provider.of<CheckList>(context, listen: false).fetchCheckStates();
-        setState(() {
-          isChecked = value!;
-        });
-      },
+    return Container(
+      alignment: Alignment.centerLeft,
+      width: 18.0,
+      height: 18.0,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5.0),
+        ),
+        color: mainWhite,
+      ),
+      child: Checkbox(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        // fillColor: MaterialStateProperty.resolveWith(getColor),
+        fillColor: isChecked
+            ? MaterialStateProperty.all(darkBlue)
+            : MaterialStateProperty.all(mainWhite),
+        visualDensity: VisualDensity.standard,
+        value: isChecked,
+        onChanged: (bool? value) async {
+          await Provider.of<CheckList>(context, listen: false)
+              .updateCheckStates(widget.code, value ?? false);
+          await updateCheckList(
+              Provider.of<CheckList>(context, listen: false).checkStates);
+          await Provider.of<CheckList>(context, listen: false)
+              .fetchCheckStates();
+          setState(() {
+            isChecked = value!;
+          });
+        },
+      ),
     );
   }
 }
