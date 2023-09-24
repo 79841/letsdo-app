@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:ksica/config/style.dart';
 import 'package:ksica/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -8,10 +9,12 @@ import '../provider/auth.dart';
 import '../screen/profile_screen.dart';
 
 class SubLayout extends StatelessWidget {
+  final String title;
   final Widget child;
-  SubLayout({required this.child, super.key});
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  const SubLayout({this.title = "KSCIA", required this.child, super.key});
+
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _goToHome(BuildContext context) {
     Navigator.pushReplacement(
@@ -33,8 +36,9 @@ class SubLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: lightBlue,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -43,15 +47,15 @@ class SubLayout extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         shadowColor: Colors.transparent,
-        title: const Text(
-          "KSICA",
-          style: TextStyle(
+        title: Text(
+          title,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20.0,
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFAFAFAFA),
+        // backgroundColor: const Color(0xFAFAFAFA),
       ),
       drawer: Drawer(
         child: ListView(
@@ -91,7 +95,9 @@ class SubLayout extends StatelessWidget {
           ],
         ),
       ),
-      body: child,
+      body: SingleChildScrollView(
+        child: child,
+      ),
     );
   }
 }

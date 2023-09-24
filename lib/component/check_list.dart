@@ -6,6 +6,11 @@ import '../provider/todo_list.dart';
 import '../query/check_list.dart';
 import '../provider/check_list.dart' as clp;
 
+class CheckListStyle {
+  static const double titleFontSize = 15.0;
+  static const FontWeight titleFontWeight = FontWeight.w600;
+}
+
 class CheckList extends StatefulWidget {
   const CheckList({super.key});
 
@@ -31,6 +36,10 @@ class _CheckListScreenState extends State<CheckList> {
             alignment: Alignment.centerLeft,
             child: const Text(
               "할 일",
+              style: TextStyle(
+                fontSize: CheckListStyle.titleFontSize,
+                fontWeight: CheckListStyle.titleFontWeight,
+              ),
             ),
           ),
           hspace(15.0),

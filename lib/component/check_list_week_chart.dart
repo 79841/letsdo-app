@@ -8,6 +8,14 @@ import '../config/style.dart';
 import '../provider/check_list.dart';
 import '../provider/todo_list.dart';
 
+class CheckListWeekGraphStyle {
+  static const double titleFontSize = 16.0;
+  static const FontWeight titleFontWeight = FontWeight.w600;
+  static const double iconSize = 15.0;
+  static const double dayFontSize = 15.0;
+  static const FontWeight dayFontWeight = FontWeight.w500;
+}
+
 class DailyCheckList {
   final String day;
   final String date;
@@ -24,7 +32,7 @@ class CheckListWeekGraph extends StatelessWidget {
     DateTime now = DateTime.now();
     DateTime today = DateTime(now.year, now.month, now.day, 0, 0, 0);
 
-    int currentWeekday = today.weekday;
+    int currentWeekday = today.weekday % 7;
 
     DateTime startOfWeek = today.subtract(Duration(days: currentWeekday));
 
@@ -38,7 +46,7 @@ class CheckListWeekGraph extends StatelessWidget {
     final List<String> daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
     int todoListCount =
-        Provider.of<TodoList>(context, listen: false).todoList.length;
+        Provider.of<TodoList>(context, listen: true).todoList.length;
 
     return Consumer<CheckList>(
       builder: (_, __, ___) {
@@ -71,6 +79,7 @@ class CheckListWeekGraph extends StatelessWidget {
                     .length
                     .toDouble() +
                 1;
+
             return Container(
               height: MediaQuery.of(context).size.width * 0.3,
               decoration: const BoxDecoration(
@@ -90,18 +99,26 @@ class CheckListWeekGraph extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             alignment: Alignment.centerLeft,
-                            child: const Text("이번주"),
+                            child: const Text(
+                              "이번 주",
+                              style: TextStyle(
+                                color: mainBlack,
+                                fontSize: CheckListWeekGraphStyle.titleFontSize,
+                                fontWeight:
+                                    CheckListWeekGraphStyle.titleFontWeight,
+                              ),
+                            ),
                           ),
                           const Icon(
                             Icons.arrow_forward_ios,
                             color: mainBlack,
-                            size: 15.0,
+                            size: CheckListWeekGraphStyle.iconSize,
                           ),
                         ],
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: Row(
                         children: checkListForWeek.asMap().entries.map(
                           (e) {
@@ -120,42 +137,12 @@ class CheckListWeekGraph extends StatelessWidget {
                             }
                             return Expanded(
                               flex: 1,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: _DonutChart(
-                                      todoListCount: todoListCount,
-                                      checkListCount: e.value.count,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      alignment: Alignment.topCenter,
-                                      child: Container(
-                                        alignment: Alignment.topCenter,
-                                        height: 22.0,
-                                        width: 22.0,
-                                        decoration: BoxDecoration(
-                                          color: bgColor,
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(11.0),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          daysOfWeek[e.key],
-                                          style: TextStyle(
-                                            color: textColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // Container(
-                                  //   child: const Text("a"),
-                                  // )
-                                ],
+                              child: _DayChart(
+                                backgroundColor: bgColor,
+                                checkListCount: e.value.count,
+                                day: daysOfWeek[e.key],
+                                textColor: textColor,
+                                todoListCount: todoListCount,
                               ),
                             );
                           },
@@ -170,6 +157,64 @@ class CheckListWeekGraph extends StatelessWidget {
           future: fetchCheckListForPeriod(startOfWeekStr, endOfWeekStr),
         );
       },
+    );
+  }
+}
+
+class _DayChart extends StatelessWidget {
+  final int todoListCount;
+  final int checkListCount;
+  final String day;
+  final Color backgroundColor;
+  final Color textColor;
+  const _DayChart({
+    required this.todoListCount,
+    required this.checkListCount,
+    required this.day,
+    required this.backgroundColor,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          flex: 3,
+          child: _DonutChart(
+            todoListCount: todoListCount,
+            checkListCount: checkListCount,
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+            alignment: Alignment.topCenter,
+            child: Container(
+              alignment: Alignment.topCenter,
+              height: 22.0,
+              width: 22.0,
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(11.0),
+                ),
+              ),
+              child: Text(
+                day,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: CheckListWeekGraphStyle.dayFontSize,
+                  fontWeight: CheckListWeekGraphStyle.dayFontWeight,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // Container(
+        //   child: const Text("a"),
+        // )
+      ],
     );
   }
 }

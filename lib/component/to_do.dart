@@ -6,6 +6,11 @@ import 'package:provider/provider.dart';
 import '../provider/check_list.dart';
 import '../query/check_list.dart';
 
+class ToDoStyle {
+  static const double todoListFontSize = 15.0;
+  static const FontWeight todoListFontWeight = FontWeight.w400;
+}
+
 class ToDo extends StatefulWidget {
   final Map toDo;
   final bool isChecked;
@@ -28,7 +33,14 @@ class _ToDoState extends State<ToDo> {
             isChecked: widget.isChecked,
           ),
           wspace(20.0),
-          Text(widget.toDo['name']),
+          Text(
+            widget.toDo['name'],
+            style: const TextStyle(
+              color: mainBlack,
+              fontSize: ToDoStyle.todoListFontSize,
+              fontWeight: ToDoStyle.todoListFontWeight,
+            ),
+          ),
         ],
       ),
     );

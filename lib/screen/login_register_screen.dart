@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ksica/component/input_box.dart';
 import 'package:ksica/config/style.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
@@ -15,12 +16,12 @@ class LoginScreenStyle {
   static const FontWeight logoFontWeight = FontWeight.w500;
   static const double infoFontSize = 17.0;
   static const FontWeight infoFontWeight = FontWeight.w600;
-  static const double inputFontSize = 15.0;
-  static const FontWeight inputFontWeight = FontWeight.w400;
+  // static const double inputFontSize = 15.0;
+  // static const FontWeight inputFontWeight = FontWeight.w400;
   static const double buttonFontSize = 16.0;
   static const FontWeight buttonFontWeight = FontWeight.w600;
-  static const double labelFontSize = 12.0;
-  static const FontWeight labelFontWeight = FontWeight.w500;
+  // static const double labelFontSize = 12.0;
+  // static const FontWeight labelFontWeight = FontWeight.w500;
   static const double boxHeight = 50.0;
   static const double boxWidth = 300.0;
   static const double bottomMargin = 20.0;
@@ -89,30 +90,30 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _entryField(
-    String title,
-    TextEditingController controller,
-  ) {
-    return Container(
-      color: mainWhite,
-      width: LoginScreenStyle.boxWidth,
-      height: LoginScreenStyle.boxHeight,
-      child: TextField(
-        style: const TextStyle(
-          fontSize: LoginScreenStyle.inputFontSize,
-          color: mainBlack,
-        ),
-        controller: controller,
-        textAlignVertical: TextAlignVertical.top,
-        decoration: InputDecoration(
-          labelText: title,
-          border: InputBorder.none,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          contentPadding: const EdgeInsets.fromLTRB(20.0, 0, 0, 20.0),
-        ),
-      ),
-    );
-  }
+  // Widget _entryField(
+  //   String title,
+  //   TextEditingController controller,
+  // ) {
+  //   return Container(
+  //     color: mainWhite,
+  //     width: LoginScreenStyle.boxWidth,
+  //     height: LoginScreenStyle.boxHeight,
+  //     child: TextField(
+  //       style: const TextStyle(
+  //         fontSize: LoginScreenStyle.inputFontSize,
+  //         color: mainBlack,
+  //       ),
+  //       controller: controller,
+  //       textAlignVertical: TextAlignVertical.top,
+  //       decoration: InputDecoration(
+  //         labelText: title,
+  //         border: InputBorder.none,
+  //         floatingLabelBehavior: FloatingLabelBehavior.never,
+  //         contentPadding: const EdgeInsets.fromLTRB(20.0, 0, 0, 20.0),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _errorMessage() {
     return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
@@ -202,9 +203,17 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _info("이메일로 로그인"),
           hspace(LoginScreenStyle.bottomMargin),
-          _entryField('email', _controllerEmail),
+          InputBox(
+              title: 'email',
+              controller: _controllerEmail,
+              width: LoginScreenStyle.boxWidth,
+              height: LoginScreenStyle.boxHeight),
           hspace(LoginScreenStyle.bottomMargin),
-          _entryField('password', _controllerPassword),
+          InputBox(
+              title: 'password',
+              controller: _controllerPassword,
+              width: LoginScreenStyle.boxWidth,
+              height: LoginScreenStyle.boxHeight),
           hspace(LoginScreenStyle.bottomMargin),
           // _errorMessage(),
           // hspace(LoginScreenStyle.bottomMargin),
@@ -254,16 +263,37 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _info("회원가입"),
           hspace(LoginScreenStyle.bottomMargin),
-          _label("email"),
-          _entryField('email', _controllerEmail),
+          const Label(
+            text: "email",
+            width: LoginScreenStyle.boxWidth,
+          ),
+          InputBox(
+              title: 'email',
+              controller: _controllerEmail,
+              width: LoginScreenStyle.boxWidth,
+              height: LoginScreenStyle.boxHeight),
           hspace(LoginScreenStyle.bottomMargin),
-          _label("username"),
+          const Label(
+            text: "username",
+            width: LoginScreenStyle.boxWidth,
+          ),
 
-          _entryField('username', _controllerUserName),
+          InputBox(
+              title: 'username',
+              controller: _controllerUserName,
+              width: LoginScreenStyle.boxWidth,
+              height: LoginScreenStyle.boxHeight),
           hspace(LoginScreenStyle.bottomMargin),
-          _label("password"),
+          const Label(
+            text: "password",
+            width: LoginScreenStyle.boxWidth,
+          ),
 
-          _entryField('password', _controllerPassword),
+          InputBox(
+              title: 'password',
+              controller: _controllerPassword,
+              width: LoginScreenStyle.boxWidth,
+              height: LoginScreenStyle.boxHeight),
           hspace(LoginScreenStyle.bottomMargin),
 
           // _errorMessage(),
@@ -273,19 +303,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _label(String text) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 2.0),
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: LoginScreenStyle.labelFontSize,
-          fontWeight: LoginScreenStyle.labelFontWeight,
-        ),
-      ),
-    );
-  }
+  // Widget _label(String text) {
+  //   return Container(
+  //     padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 2.0),
+  //     alignment: Alignment.centerLeft,
+  //     child: Text(
+  //       text,
+  //       style: const TextStyle(
+  //         fontSize: LoginScreenStyle.labelFontSize,
+  //         fontWeight: LoginScreenStyle.labelFontWeight,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _formMode(BuildContext context) {
     return isLogin ? _loginMode(context) : _registerMode(context);
@@ -296,18 +326,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: lightBlue,
       body: SafeArea(
-        child: Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              _logo(),
-              _formMode(context),
-              // _loginOrRegisterButton(),
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                _logo(),
+                _formMode(context),
+                // _loginOrRegisterButton(),
+              ],
+            ),
           ),
         ),
       ),

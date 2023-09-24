@@ -107,16 +107,19 @@ class MainLayout extends StatelessWidget {
                                       MainLayoutStyle.drawerHeaderFontWeight),
                             ),
                           ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ProfileImage(
-                                profileImageSize:
-                                    MainLayoutStyle.profileImageSize,
-                              ),
-                              _Profile(),
-                            ],
+                          GestureDetector(
+                            onTap: () => goToProfile(context),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ProfileImage(
+                                  profileImageSize:
+                                      MainLayoutStyle.profileImageSize,
+                                ),
+                                _Profile(),
+                              ],
+                            ),
                           ),
                         ],
                       ),

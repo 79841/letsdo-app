@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:ksica/config/style.dart';
 import '../query/profile_image.dart';
 
 class ProfileImage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _ProfileImageState extends State<ProfileImage> {
       height: widget.profileImageSize,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.profileImageSize / 2),
+        color: mainGray,
       ),
     );
   }

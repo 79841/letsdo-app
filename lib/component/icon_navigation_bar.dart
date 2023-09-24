@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ksica/config/style.dart';
 import 'package:ksica/provider/chatroom.dart';
 import 'package:provider/provider.dart';
-
 import '../utils/navigator.dart';
+
+class IconNavigationBarStyle {
+  static const double fontSize = 15.0;
+  static const double iconSize = 35.0;
+}
 
 class _NavigationData {
   final IconData icon;
@@ -93,6 +97,7 @@ class IconNavigator extends StatelessWidget {
               child: Icon(
                 icon,
                 color: mainBlack,
+                size: IconNavigationBarStyle.iconSize,
               ),
             ),
             Expanded(
@@ -101,6 +106,7 @@ class IconNavigator extends StatelessWidget {
                 text,
                 style: const TextStyle(
                   color: mainBlack,
+                  fontSize: IconNavigationBarStyle.fontSize,
                 ),
               ),
             ),
