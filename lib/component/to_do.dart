@@ -26,7 +26,6 @@ class _ToDoState extends State<ToDo> {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 15.0),
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ToDoCheckBox(
             code: widget.toDo['code'],
@@ -95,7 +94,6 @@ class _ToDoCheckBoxState extends State<ToDoCheckBox> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        // fillColor: MaterialStateProperty.resolveWith(getColor),
         fillColor: isChecked
             ? MaterialStateProperty.all(darkBlue)
             : MaterialStateProperty.all(mainWhite),

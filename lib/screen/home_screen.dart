@@ -9,7 +9,6 @@ import '../component/check_list_week_chart.dart';
 import '../component/check_list_today_chart.dart';
 import '../provider/auth.dart';
 import '../provider/todo_list.dart';
-import '../query/chatroom.dart';
 import 'chat_screen.dart';
 import 'checklist_screen.dart';
 import '../provider/check_list.dart' as clp;
@@ -73,61 +72,21 @@ class _HomeScreenState extends State<HomeScreen> {
             return Container(
               padding: const EdgeInsets.all(15.0),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // Column(
-                  // children: [
                   CheckListTodayChart(
                     targetKey: targetKey,
                     controller: _controller,
                   ),
-                  // ],
-                  // ),
-                  _hSpace(40.0),
+                  hspace(40.0),
                   const CheckListWeekGraph(),
                   hspace(40.0),
                   IconNavigationBar(
                     pageContext: context,
                   ),
-                  // Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     Container(
-                  //       margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-                  //       alignment: Alignment.centerLeft,
-                  //       child: const Text("Week"),
-                  //     ),
-                  //     const SizedBox(
-                  //       // height: 200.0,
-                  //       // width: 380.0,
-                  //       child: CheckListWeekGraph(),
-                  //     ),
-                  //   ],
-                  // ),
-                  _hSpace(40.0),
+                  hspace(40.0),
                   const CheckList(),
-                  _hSpace(60.0),
-
-                  // Row(
-                  //   // crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     PageButton(
-                  //       icon: Icons.home,
-                  //       onPressed: goToWebSite,
-                  //     ),
-                  //     PageButton(
-                  //       icon: Icons.check_box,
-                  //       onPressed: () => goToCheckList(context),
-                  //     ),
-                  //     PageButton(
-                  //       icon: Icons.chat,
-                  //       onPressed: () => goToChat(context),
-                  //     ),
-                  //   ],
-                  // ),
-                  // _signOutButton(context),
+                  hspace(60.0),
                 ],
               ),
             );
@@ -150,12 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void goToChat(BuildContext context) async {
-    Map<String, dynamic> chatroom = await fetchChatroom();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => ChatScreen(
-          chatroomId: chatroom["chatroom_id"],
-        ),
+        builder: (BuildContext context) => const ChatScreen(),
       ),
     );
   }

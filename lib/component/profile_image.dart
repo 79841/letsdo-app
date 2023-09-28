@@ -13,7 +13,6 @@ class ProfileImage extends StatefulWidget {
 }
 
 class _ProfileImageState extends State<ProfileImage> {
-  // File? _image;
   double iconSize = 20.0;
 
   Widget defaultProfile() {

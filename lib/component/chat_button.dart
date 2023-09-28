@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:ksica/query/chatroom.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../config.dart';
 import '../provider/auth.dart';
-import '../query/chatroom.dart';
 import '../utils/navigator.dart';
 
 class ChatButton extends StatefulWidget {
@@ -42,14 +42,14 @@ class ChatButtonState extends State<ChatButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Auth>(
-      builder: (context, auth, child) {
-        return FutureBuilder(
-          future: fetchChatroom(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              int chatroomId = snapshot.data?["chatroom_id"];
+    return FutureBuilder(
+      future: fetchChatroom(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          int chatroomId = snapshot.data?["chatroom_id"];
 
+          return Consumer<Auth>(
+            builder: (context, auth, child) {
               _channel = IOWebSocketChannel.connect(
                 Uri.parse(
                     "$WEBSOCKET_SERVER_URL/message/unread/count/ws/$chatroomId?token=${auth.token}"),
@@ -61,6 +61,7 @@ class ChatButtonState extends State<ChatButton> {
                   int unreadMessageCount = 0;
                   if (snapshot.hasData) {
                     unreadMessageCount = json.decode(snapshot.data);
+                    print(unreadMessageCount);
                   }
                   if (unreadMessageCount > 0) {
                     return Stack(
@@ -85,11 +86,13 @@ class ChatButtonState extends State<ChatButton> {
                   }
                 },
               );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        );
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }

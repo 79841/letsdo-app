@@ -23,7 +23,7 @@ Future<void> updateCheckList(checkStates) async {
   );
 }
 
-Future<Uint8List> fetchProfileImage() async {
+Future<Uint8List> fetchProfileImage([int? userId]) async {
   const storage = FlutterSecureStorage();
   String? token = await storage.read(key: "Authorization");
   Map<String, String> headers = {
@@ -32,7 +32,9 @@ Future<Uint8List> fetchProfileImage() async {
     "Authorization": token.toString(),
   };
 
-  final url = Uri.parse("$SERVER_URL/profile/");
+  final url = userId == null
+      ? Uri.parse("$SERVER_URL/profile")
+      : Uri.parse("$SERVER_URL/profile/$userId");
   final response = await http.get(url, headers: headers);
 
   if (response.statusCode == 200) {

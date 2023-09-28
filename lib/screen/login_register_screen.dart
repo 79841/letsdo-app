@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ksica/component/input_box.dart';
 import 'package:ksica/config/style.dart';
+import 'package:ksica/provider/user_info.dart';
+import 'package:ksica/query/user_info.dart';
+import 'package:ksica/utils/email_format_check.dart';
 import 'package:provider/provider.dart';
-// import 'package:provider/provider.dart';
 
 import '../provider/auth.dart';
 import '../query/auth.dart';
@@ -16,12 +18,8 @@ class LoginScreenStyle {
   static const FontWeight logoFontWeight = FontWeight.w500;
   static const double infoFontSize = 17.0;
   static const FontWeight infoFontWeight = FontWeight.w600;
-  // static const double inputFontSize = 15.0;
-  // static const FontWeight inputFontWeight = FontWeight.w400;
   static const double buttonFontSize = 16.0;
   static const FontWeight buttonFontWeight = FontWeight.w600;
-  // static const double labelFontSize = 12.0;
-  // static const FontWeight labelFontWeight = FontWeight.w500;
   static const double boxHeight = 50.0;
   static const double boxWidth = 300.0;
   static const double bottomMargin = 20.0;
@@ -43,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerUserName = TextEditingController();
+  bool _isValidFormat = true;
 
   Future<void> signIn(BuildContext context, VoidCallback onSuccess) async {
     final response = await signInWithEmailAndPassword(
@@ -53,19 +52,20 @@ class _LoginScreenState extends State<LoginScreen> {
       key: "Authorization",
       value: token,
     );
+    final userInfo = await getUserInfo();
+
     if (mounted) {
       Provider.of<Auth>(context, listen: false).setToken(token);
+      Provider.of<UserInfo>(context, listen: false).setUserData(userInfo);
     }
     onSuccess.call();
   }
 
   Widget _logo() {
     return Container(
-      // margin: const EdgeInsets.fromLTRB(0, 0, 0, 100.0),
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width,
       height: 150.0,
-      // margin: const EdgeInsets.all(80.0),
       child: const Text(
         'KSICA',
         style: TextStyle(
@@ -90,63 +90,37 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Widget _entryField(
-  //   String title,
-  //   TextEditingController controller,
-  // ) {
-  //   return Container(
-  //     color: mainWhite,
-  //     width: LoginScreenStyle.boxWidth,
-  //     height: LoginScreenStyle.boxHeight,
-  //     child: TextField(
-  //       style: const TextStyle(
-  //         fontSize: LoginScreenStyle.inputFontSize,
-  //         color: mainBlack,
-  //       ),
-  //       controller: controller,
-  //       textAlignVertical: TextAlignVertical.top,
-  //       decoration: InputDecoration(
-  //         labelText: title,
-  //         border: InputBorder.none,
-  //         floatingLabelBehavior: FloatingLabelBehavior.never,
-  //         contentPadding: const EdgeInsets.fromLTRB(20.0, 0, 0, 20.0),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
+    return Text(errorMessage == '' ? '' : '$errorMessage');
   }
 
   Widget _loginButton(BuildContext context) {
     return SizedBox(
-      // margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
-      // width: MediaQuery.of(context).size.width,
       width: LoginScreenStyle.boxWidth,
       height: LoginScreenStyle.boxHeight,
-
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(darkBlue),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0), // 원하는 둥근 모서리 반지름 설정
+              borderRadius: BorderRadius.circular(10.0),
             ),
           ),
         ),
         onPressed: () {
+          if (!isEmailValid(_controllerEmail.text)) {
+            setState(() {
+              _isValidFormat = false;
+              errorMessage = "잘못된 이메일 형식입니다.";
+            });
+            return;
+          }
+          _isValidFormat = true;
+
           signIn(
             context,
             () {
-              // if (!mounted) return;
               context.read<Auth>().authorize();
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) => const HomeScreen(),
-              //   ),
-              // );
             },
           );
         },
@@ -174,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: MaterialStateProperty.all(mainBlue),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0), // 원하는 둥근 모서리 반지름 설정
+              borderRadius: BorderRadius.circular(10.0),
             ),
           ),
         ),
@@ -204,19 +178,22 @@ class _LoginScreenState extends State<LoginScreen> {
           _info("이메일로 로그인"),
           hspace(LoginScreenStyle.bottomMargin),
           InputBox(
-              title: 'email',
-              controller: _controllerEmail,
-              width: LoginScreenStyle.boxWidth,
-              height: LoginScreenStyle.boxHeight),
+            title: 'email',
+            controller: _controllerEmail,
+            width: LoginScreenStyle.boxWidth,
+            height: LoginScreenStyle.boxHeight,
+            isPassword: false,
+            isValidFormat: _isValidFormat,
+          ),
           hspace(LoginScreenStyle.bottomMargin),
           InputBox(
-              title: 'password',
-              controller: _controllerPassword,
-              width: LoginScreenStyle.boxWidth,
-              height: LoginScreenStyle.boxHeight),
+            title: 'password',
+            controller: _controllerPassword,
+            width: LoginScreenStyle.boxWidth,
+            height: LoginScreenStyle.boxHeight,
+            isPassword: true,
+          ),
           hspace(LoginScreenStyle.bottomMargin),
-          // _errorMessage(),
-          // hspace(LoginScreenStyle.bottomMargin),
           _loginButton(context),
           hspace(LoginScreenStyle.bottomMargin),
           _changeToRegisterMode(context),
@@ -229,7 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
     BuildContext context,
   ) {
     return SizedBox(
-      // color: darkBlue,
       width: LoginScreenStyle.boxWidth,
       height: LoginScreenStyle.boxHeight,
       child: ElevatedButton(
@@ -237,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: MaterialStateProperty.all(darkBlue),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0), // 원하는 둥근 모서리 반지름 설정
+              borderRadius: BorderRadius.circular(10.0),
             ),
           ),
         ),
@@ -247,6 +223,9 @@ class _LoginScreenState extends State<LoginScreen> {
             _controllerUserName.text,
             _controllerPassword.text,
           );
+          _controllerEmail.text = "";
+          _controllerPassword.text = "";
+          _controllerUserName.text = "";
           setState(() {
             isLogin = true;
           });
@@ -268,54 +247,42 @@ class _LoginScreenState extends State<LoginScreen> {
             width: LoginScreenStyle.boxWidth,
           ),
           InputBox(
-              title: 'email',
-              controller: _controllerEmail,
-              width: LoginScreenStyle.boxWidth,
-              height: LoginScreenStyle.boxHeight),
+            title: 'email',
+            controller: _controllerEmail,
+            width: LoginScreenStyle.boxWidth,
+            height: LoginScreenStyle.boxHeight,
+            isPassword: false,
+          ),
           hspace(LoginScreenStyle.bottomMargin),
           const Label(
             text: "username",
             width: LoginScreenStyle.boxWidth,
           ),
-
           InputBox(
-              title: 'username',
-              controller: _controllerUserName,
-              width: LoginScreenStyle.boxWidth,
-              height: LoginScreenStyle.boxHeight),
+            title: 'username',
+            controller: _controllerUserName,
+            width: LoginScreenStyle.boxWidth,
+            height: LoginScreenStyle.boxHeight,
+            isPassword: false,
+          ),
           hspace(LoginScreenStyle.bottomMargin),
           const Label(
             text: "password",
             width: LoginScreenStyle.boxWidth,
           ),
-
           InputBox(
-              title: 'password',
-              controller: _controllerPassword,
-              width: LoginScreenStyle.boxWidth,
-              height: LoginScreenStyle.boxHeight),
+            title: 'password',
+            controller: _controllerPassword,
+            width: LoginScreenStyle.boxWidth,
+            height: LoginScreenStyle.boxHeight,
+            isPassword: true,
+          ),
           hspace(LoginScreenStyle.bottomMargin),
-
-          // _errorMessage(),
           _registerButton(context),
         ],
       ),
     );
   }
-
-  // Widget _label(String text) {
-  //   return Container(
-  //     padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 2.0),
-  //     alignment: Alignment.centerLeft,
-  //     child: Text(
-  //       text,
-  //       style: const TextStyle(
-  //         fontSize: LoginScreenStyle.labelFontSize,
-  //         fontWeight: LoginScreenStyle.labelFontWeight,
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _formMode(BuildContext context) {
     return isLogin ? _loginMode(context) : _registerMode(context);
@@ -337,7 +304,6 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 _logo(),
                 _formMode(context),
-                // _loginOrRegisterButton(),
               ],
             ),
           ),

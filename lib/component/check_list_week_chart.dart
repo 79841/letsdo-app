@@ -211,9 +211,6 @@ class _DayChart extends StatelessWidget {
             ),
           ),
         ),
-        // Container(
-        //   child: const Text("a"),
-        // )
       ],
     );
   }
@@ -260,7 +257,6 @@ class _DonutChartState extends State<_DonutChart> {
           pointColorMapper: (_ChartData data, _) => data.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
-            // labelPosition: ChartDataLabelPosition.outside,
           ),
         ),
       ],

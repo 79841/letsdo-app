@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/config/style.dart';
+import 'package:ksica/provider/user_info.dart';
 import 'package:ksica/screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../component/profile_image.dart';
-import '../provider/auth.dart';
 import '../screen/profile_screen.dart';
 
 class SubLayout extends StatelessWidget {
@@ -13,8 +12,6 @@ class SubLayout extends StatelessWidget {
   final Widget child;
 
   const SubLayout({this.title = "KSCIA", required this.child, super.key});
-
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _goToHome(BuildContext context) {
     Navigator.pushReplacement(
@@ -36,7 +33,6 @@ class SubLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: lightBlue,
         leading: IconButton(
@@ -44,7 +40,7 @@ class SubLayout extends StatelessWidget {
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(context),
         ),
         shadowColor: Colors.transparent,
         title: Text(
@@ -55,15 +51,11 @@ class SubLayout extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        // backgroundColor: const Color(0xFAFAFAFA),
       ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              // decoration: BoxDecoration(
-              //   color: Colors.grey.shade300,
-              // ),
               child: MouseRegion(
                 child: GestureDetector(
                   child: const Column(
@@ -88,16 +80,12 @@ class SubLayout extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('설정'),
-              onTap: () {
-                // 설정 메뉴 선택 시 수행할 동작
-              },
+              onTap: () {},
             ),
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: child,
-      ),
+      body: child,
     );
   }
 }
@@ -107,18 +95,13 @@ class _Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> token = JwtDecoder.decode(
-      Provider.of<Auth>(
-        context,
-        listen: false,
-      ).token,
-    );
+    UserData userData = Provider.of<UserInfo>(context, listen: false).userData!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(token["username"]),
-        Text(token["email"]),
+        Text(userData.username),
+        Text(userData.email),
       ],
     );
   }

@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../provider/check_list.dart';
 import '../provider/todo_list.dart';
+import '../query/check_list.dart';
+import '../query/todo_list.dart';
 
 class CheckListTodayChartStyle {
   static const double titleFontSize = 15.0;
@@ -37,6 +39,13 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
     );
   }
 
+  Future<List<dynamic>> fetchData() async {
+    List<dynamic> todoList = await fetchTodoList();
+    List<dynamic> checkList = await fetchCheckList();
+
+    return [todoList, checkList];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CheckList>(
@@ -48,10 +57,6 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
             .checkStates
             .where((e) => e["done"] == true)
             .length;
-        // return _DonutChart(
-        //   todoListCount: todoListCount,
-        //   checkListCount: checkListCount,
-        // );
 
         return Column(
           children: [
@@ -67,9 +72,6 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
             ),
             hspace(5.0),
             Container(
-              // alignment: Alignment.center,
-              // height: 200.0,
-
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width * 0.50,
               decoration: const BoxDecoration(
@@ -200,7 +202,6 @@ class _DonutChartState extends State<_DonutChart> {
           pointColorMapper: (_ChartData data, _) => data.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
-            // labelPosition: ChartDataLabelPosition.outside,
           ),
         ),
       ],

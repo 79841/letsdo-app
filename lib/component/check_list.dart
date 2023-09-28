@@ -44,11 +44,7 @@ class _CheckListScreenState extends State<CheckList> {
           ),
           hspace(15.0),
           Container(
-            // height: MediaQuery.of(context).size.height,
-            // alignment: Alignment.center,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
               children:
                   Provider.of<TodoList>(context, listen: false).todoList.map(
                 (e) {
@@ -94,7 +90,6 @@ class _CheckListScreenState extends State<CheckList> {
     return SingleChildScrollView(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        // height: 700.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -109,7 +104,6 @@ class _CheckListScreenState extends State<CheckList> {
                 );
               },
             ),
-            // _SaveButton(),
           ],
         ),
       ),

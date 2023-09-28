@@ -3,8 +3,8 @@ import 'package:ksica/component/to_do.dart';
 import 'package:provider/provider.dart';
 import '../Layout/sub_layout.dart';
 import '../provider/check_list.dart';
-import '../provider/todo_list.dart';
 import '../query/check_list.dart';
+import '../query/todo_list.dart';
 
 class CheckListScreen extends StatefulWidget {
   const CheckListScreen({super.key});
@@ -14,29 +14,18 @@ class CheckListScreen extends StatefulWidget {
 }
 
 class _CheckListScreenState extends State<CheckListScreen> {
-  Future<bool> _initCheckStates() async {
-    if (!mounted) return false;
-    await Provider.of<TodoList>(context, listen: false).getTodoList();
-    await Provider.of<CheckList>(context, listen: false).fetchCheckStates();
-    return true;
-  }
-
-  Widget _checkList() {
+  Widget _checkList(todoList, checkStates) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      // height: MediaQuery.of(context).size.height,
       alignment: Alignment.center,
       child: SizedBox(
-        // width: 350.0,
-        // height: 700.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: Provider.of<TodoList>(context, listen: false).todoList.map(
+          children: todoList.map(
             (e) {
               bool isChecked = false;
-              for (var v in Provider.of<CheckList>(context, listen: false)
-                  .checkStates) {
+              for (var v in checkStates) {
                 if (e["code"] == v["code"] && v["done"] == true) {
                   isChecked = true;
                 }
@@ -75,14 +64,35 @@ class _CheckListScreenState extends State<CheckListScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FutureBuilder(
-                future: _initCheckStates(),
+                future: Future.wait([
+                  fetchTodoList(),
+                  fetchCheckList(),
+                ]),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return _checkList();
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Failed to load data'),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (!snapshot.hasData) {
+                    return const Center(child: Text('No data yet.'));
                   }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+
+                  final todoList = snapshot.data[0];
+                  final checkStates = snapshot.data[1];
+                  return _checkList(todoList, checkStates);
                 },
               ),
               _SaveButton(),

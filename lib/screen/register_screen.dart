@@ -68,7 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 100.0),
       alignment: Alignment.center,
-      // margin: const EdgeInsets.all(80.0),
       child: Text(
         'KSICA',
         style: TextStyle(
@@ -83,11 +82,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: _title(),
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      // ),
       body: SafeArea(
         child: Container(
           alignment: Alignment.center,

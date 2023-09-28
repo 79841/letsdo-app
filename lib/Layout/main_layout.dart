@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/component/bottom_bar.dart';
 import 'package:ksica/config/style.dart';
+import 'package:ksica/provider/user_info.dart';
 import 'package:ksica/query/chatroom.dart';
 import 'package:ksica/screen/home_screen.dart';
 import 'package:ksica/utils/navigator.dart';
@@ -33,13 +33,14 @@ class MainLayout extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> signOut(BuildContext context, VoidCallback onSuccess) async {
-    if (!context.mounted) {
-      return;
-    }
     await HomeScreen.storage.delete(
       key: "Authorization",
     );
-    Provider.of<Auth>(context, listen: false).removeToken();
+    if (context.mounted) {
+      Provider.of<Auth>(context, listen: false).removeToken();
+      Provider.of<UserInfo>(context, listen: false).removeUserData();
+    }
+
     onSuccess.call();
   }
 
@@ -60,148 +61,156 @@ class MainLayout extends StatelessWidget {
     );
   }
 
+  Future<int> getChatroomId() async {
+    Map<String, dynamic> chatroom = await fetchChatroom();
+
+    if (!chatroom.containsKey("chatroom_id")) {
+      chatroom = await createChatroom();
+      return chatroom["id"];
+    }
+
+    return chatroom["chatroom_id"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: fetchChatroom(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            Provider.of<Chatroom>(context, listen: false)
-                .setChatroomId(snapshot.data!["chatroom_id"]);
-          }
-          return Scaffold(
-            key: _scaffoldKey,
-            appBar: AppBar(
-              shadowColor: Colors.transparent,
-              automaticallyImplyLeading: false,
-              // actions: [
-              //   Container(),
-              // ],
-              backgroundColor: MainLayoutStyle.bgColor,
-              title: const Text(
-                "KSICA",
-                style: TextStyle(
-                  color: MainLayoutStyle.appBarTitleColor,
-                  fontSize: 20.0,
-                ),
-              ),
-              centerTitle: true,
-            ),
-            endDrawer: Drawer(
-              child: ListView(
-                children: <Widget>[
-                  SizedBox(
-                    height: MainLayoutStyle.drawerHeaderHeight,
-                    child: DrawerHeader(
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                            alignment: Alignment.centerLeft,
-                            child: const Text(
-                              "KSCIA",
-                              style: TextStyle(
-                                  fontSize:
-                                      MainLayoutStyle.drawerHeaderFontSize,
-                                  fontWeight:
-                                      MainLayoutStyle.drawerHeaderFontWeight),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => goToProfile(context),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ProfileImage(
-                                  profileImageSize:
-                                      MainLayoutStyle.profileImageSize,
-                                ),
-                                _Profile(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    trailing: const Icon(
-                      Icons.link,
-                      color: mainBlack,
-                    ),
-                    title: const Text(
-                      '홈페이지 방문하기',
-                      style: TextStyle(
-                        color: mainBlack,
-                      ),
-                    ),
-                    onTap: () {
-                      _scaffoldKey.currentState?.closeDrawer();
-                    },
-                  ),
-                  ListTile(
-                    trailing: const Icon(
-                      Icons.link,
-                      color: mainBlack,
-                    ),
-                    title: const Text(
-                      '공지사항',
-                      style: TextStyle(
-                        color: mainBlack,
-                      ),
-                    ),
-                    onTap: () => _goToProfile(context),
-                  ),
-                  ListTile(
-                    trailing: const Icon(
-                      Icons.chat_bubble_outline,
-                      color: mainBlack,
-                    ),
-                    title: const Text(
-                      '상담하기',
-                      style: TextStyle(
-                        color: mainBlack,
-                      ),
-                    ),
-                    onTap: () => goToWebSite(),
-                  ),
-                  ListTile(
-                    trailing: const Icon(
-                      Icons.logout,
-                      color: mainBlack,
-                    ),
-                    title: const Text(
-                      '로그아웃',
-                      style: TextStyle(
-                        color: mainBlack,
-                      ),
-                    ),
-                    onTap: () {
-                      signOut(
-                        context,
-                        () {
-                          context.read<Auth>().unauthorize();
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            backgroundColor: MainLayoutStyle.bgColor,
-            body: child,
-            bottomNavigationBar: BottomBar(
-              scaffoldKey: _scaffoldKey,
-            ),
-            // floatingActionButton: const ChatButton(),
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () => _goToChat(context),
-            //   backgroundColor: Colors.grey.shade900,
-            //   child: const Icon(Icons.chat_bubble_rounded),
-            // ),
+      future: getChatroomId(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        });
+        }
+        Provider.of<Chatroom>(context, listen: false)
+            .setChatroomId(snapshot.data!);
+        return Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            shadowColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            actions: [
+              Container(),
+            ],
+            backgroundColor: MainLayoutStyle.bgColor,
+            title: const Text(
+              "KSICA",
+              style: TextStyle(
+                color: MainLayoutStyle.appBarTitleColor,
+                fontSize: 20.0,
+              ),
+            ),
+            centerTitle: true,
+          ),
+          endDrawer: Drawer(
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: MainLayoutStyle.drawerHeaderHeight,
+                  child: DrawerHeader(
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                          alignment: Alignment.centerLeft,
+                          child: const Text(
+                            "KSCIA",
+                            style: TextStyle(
+                                fontSize: MainLayoutStyle.drawerHeaderFontSize,
+                                fontWeight:
+                                    MainLayoutStyle.drawerHeaderFontWeight),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => goToProfile(context),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ProfileImage(
+                                profileImageSize:
+                                    MainLayoutStyle.profileImageSize,
+                              ),
+                              _Profile(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ListTile(
+                  trailing: const Icon(
+                    Icons.link,
+                    color: mainBlack,
+                  ),
+                  title: const Text(
+                    '홈페이지 방문하기',
+                    style: TextStyle(
+                      color: mainBlack,
+                    ),
+                  ),
+                  onTap: () {
+                    _scaffoldKey.currentState?.closeDrawer();
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(
+                    Icons.link,
+                    color: mainBlack,
+                  ),
+                  title: const Text(
+                    '공지사항',
+                    style: TextStyle(
+                      color: mainBlack,
+                    ),
+                  ),
+                  onTap: () => _goToProfile(context),
+                ),
+                ListTile(
+                  trailing: const Icon(
+                    Icons.chat_bubble_outline,
+                    color: mainBlack,
+                  ),
+                  title: const Text(
+                    '상담하기',
+                    style: TextStyle(
+                      color: mainBlack,
+                    ),
+                  ),
+                  onTap: () => goToWebSite(),
+                ),
+                ListTile(
+                  trailing: const Icon(
+                    Icons.logout,
+                    color: mainBlack,
+                  ),
+                  title: const Text(
+                    '로그아웃',
+                    style: TextStyle(
+                      color: mainBlack,
+                    ),
+                  ),
+                  onTap: () {
+                    signOut(
+                      context,
+                      () {
+                        context.read<Auth>().unauthorize();
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: MainLayoutStyle.bgColor,
+          body: child,
+          bottomNavigationBar: BottomBar(
+            scaffoldKey: _scaffoldKey,
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -210,12 +219,7 @@ class _Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> token = JwtDecoder.decode(
-      Provider.of<Auth>(
-        context,
-        listen: false,
-      ).token,
-    );
+    UserData userData = Provider.of<UserInfo>(context, listen: false).userData!;
 
     return Container(
       margin: const EdgeInsets.all(20.0),
@@ -225,7 +229,7 @@ class _Profile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            token["username"],
+            userData.username,
             style: const TextStyle(
               color: mainBlack,
               fontSize: MainLayoutStyle.usernameFontSize,
@@ -233,7 +237,7 @@ class _Profile extends StatelessWidget {
             ),
           ),
           Text(
-            token["email"],
+            userData.email,
             style: const TextStyle(
               color: mainBlack,
               fontSize: MainLayoutStyle.emailFontSize,

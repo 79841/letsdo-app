@@ -14,20 +14,30 @@ class InputBox extends StatelessWidget {
   final TextEditingController controller;
   final double width;
   final double height;
-  const InputBox(
-      {required this.title,
-      required this.controller,
-      required this.height,
-      required this.width,
-      super.key});
+  final bool isPassword;
+  final bool isValidFormat;
+  const InputBox({
+    required this.title,
+    required this.controller,
+    required this.height,
+    required this.width,
+    this.isPassword = false,
+    this.isValidFormat = true,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final Color borderColor = isValidFormat ? Colors.transparent : Colors.red;
     return Container(
-      color: mainWhite,
       width: width,
       height: height,
+      decoration: BoxDecoration(
+        border: Border.all(color: borderColor),
+        color: mainWhite,
+      ),
       child: TextField(
+        obscureText: isPassword,
         style: const TextStyle(
           fontSize: InputBoxStyle.inputFontSize,
           fontWeight: InputBoxStyle.inputFontWeight,

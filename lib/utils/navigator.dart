@@ -8,19 +8,14 @@ import '../screen/profile_screen.dart';
 
 void goToChat(BuildContext context, int? chatroomId,
     FutureOr<dynamic> Function(dynamic) callback) async {
-  // Map<String, dynamic> chatroom = await fetchChatroom();
   if (chatroomId == null) {
     return;
   }
-  Navigator.of(context)
-      .push(
-        MaterialPageRoute(
-          builder: (BuildContext context) => ChatScreen(
-            chatroomId: chatroomId,
-          ),
-        ),
-      )
-      .then(callback);
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (BuildContext context) => const ChatScreen(),
+    ),
+  );
 }
 
 void goToWebSite() {

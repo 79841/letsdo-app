@@ -3,19 +3,12 @@ import 'package:ksica/provider/auth.dart';
 import 'package:ksica/provider/chatroom.dart';
 import 'package:ksica/provider/check_list.dart';
 import 'package:ksica/provider/todo_list.dart';
+import 'package:ksica/provider/user_info.dart';
 import 'package:ksica/widget_tree.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // 기기의 시간대를 가져옵니다.
-  // final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
-
-  // 앱의 시간대를 설정합니다.
-  // Intl.defaultLocale = 'ko_KR'; // 앱의 로케일 설정 (한국어)
-  // await initializeDateFormatting(); // 날짜 및 시간 형식 설정
-  // tz.setLocalLocation(tz.getLocation(timeZone));
 
   runApp(
     MultiProvider(
@@ -24,6 +17,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => TodoList()),
         ChangeNotifierProvider(create: (_) => CheckList()),
         ChangeNotifierProvider(create: (_) => Chatroom()),
+        ChangeNotifierProvider(create: (_) => UserInfo()),
       ],
       child: const MyApp(),
     ),
@@ -49,21 +43,6 @@ class MyApp extends StatelessWidget {
     },
   );
 
-  // static const MaterialColor white = MaterialColor(
-  //   0xFAFAFAFA,
-  //   <int, Color>{
-  //     50: Color(0xFAFAFAFA),
-  //     100: Color(0xFAFAFAFA),
-  //     200: Color(0xFAFAFAFA),
-  //     300: Color(0xFAFAFAFA),
-  //     400: Color(0xFAFAFAFA),
-  //     500: Color(0xFAFAFAFA),
-  //     600: Color(0xFAFAFAFA),
-  //     700: Color(0xFAFAFAFA),
-  //     800: Color(0xFAFAFAFA),
-  //     900: Color(0xFAFAFAFA),
-  //   },
-  // );
   static const int _blackPrimaryValue = 0xFF000000;
 
   @override
