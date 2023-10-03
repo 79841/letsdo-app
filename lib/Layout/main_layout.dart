@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../component/profile_image.dart';
 import '../provider/auth.dart';
 import '../provider/chatroom.dart';
+import '../screen/login_register_screen.dart';
 import '../screen/profile_screen.dart';
 
 class MainLayoutStyle {
@@ -97,7 +98,7 @@ class MainLayout extends StatelessWidget {
               "KSICA",
               style: TextStyle(
                 color: MainLayoutStyle.appBarTitleColor,
-                fontSize: 20.0,
+                fontSize: 25.0,
               ),
             ),
             centerTitle: true,
@@ -196,6 +197,12 @@ class MainLayout extends StatelessWidget {
                       context,
                       () {
                         context.read<Auth>().unauthorize();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const LoginScreen(),
+                          ),
+                        );
                       },
                     );
                   },

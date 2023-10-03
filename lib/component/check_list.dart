@@ -7,7 +7,7 @@ import '../query/check_list.dart';
 import '../provider/check_list.dart' as clp;
 
 class CheckListStyle {
-  static const double titleFontSize = 15.0;
+  static const double titleFontSize = 16.0;
   static const FontWeight titleFontWeight = FontWeight.w600;
 }
 

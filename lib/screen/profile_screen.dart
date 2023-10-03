@@ -37,6 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _image = File(pickedFile.path);
       await deleteProfileImage();
       await uploadProfileImage(_image!);
+      setState(() {});
     } else {
       print('No image selected.');
     }

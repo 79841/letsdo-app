@@ -38,11 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _scrollToBottom() {
     if (scrollController.hasClients) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeOut,
-      );
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
     }
   }
 
@@ -94,8 +90,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           if (messages0.isNotEmpty) {
                             updateLastReadMessage(chatroomId,
                                 messages0[messages0.length - 1]["id"]);
-                            print("last read message");
-                            print(messages0[messages0.length - 1]["id"]);
                           }
 
                           return MessageBoxes(

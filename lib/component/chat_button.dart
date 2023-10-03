@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../config.dart';
+import '../config/style.dart';
 import '../provider/auth.dart';
 import '../utils/navigator.dart';
 
@@ -27,7 +28,7 @@ class ChatButtonState extends State<ChatButton> {
     super.dispose();
   }
 
-  Widget chatIcon(int chatroomId, double size) {
+  Widget chatIcon(int chatroomId, double size, bool unreadMessageExist) {
     return IconButton(
       onPressed: () => goToChat(
         context,
@@ -36,7 +37,13 @@ class ChatButtonState extends State<ChatButton> {
           setState(() {});
         },
       ),
-      icon: Icon(Icons.chat_bubble_outline, size: size),
+      icon: Icon(
+        unreadMessageExist
+            ? Icons.mark_chat_unread_outlined
+            : Icons.chat_bubble_outline,
+        size: size,
+        color: mainBlack,
+      ),
     );
   }
 
@@ -58,32 +65,18 @@ class ChatButtonState extends State<ChatButton> {
               return StreamBuilder(
                 stream: _channel.stream,
                 builder: (context, snapshot) {
+                  bool unreadMessageExist = false;
+
                   int unreadMessageCount = 0;
                   if (snapshot.hasData) {
                     unreadMessageCount = json.decode(snapshot.data);
                     print(unreadMessageCount);
                   }
                   if (unreadMessageCount > 0) {
-                    return Stack(
-                      children: [
-                        chatIcon(chatroomId, widget.iconSize),
-                        Container(
-                          width: 20.0,
-                          height: 20.0,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          child: Text(unreadMessageCount.toString()),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return chatIcon(chatroomId, widget.iconSize);
+                    unreadMessageExist = true;
                   }
+                  return chatIcon(
+                      chatroomId, widget.iconSize, unreadMessageExist);
                 },
               );
             },

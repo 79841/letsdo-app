@@ -9,11 +9,11 @@ import '../query/check_list.dart';
 import '../query/todo_list.dart';
 
 class CheckListTodayChartStyle {
-  static const double titleFontSize = 15.0;
-  static const FontWeight titleFontWeight = FontWeight.w400;
-  static const double normalFontSize = 15.0;
+  static const double titleFontSize = 16.0;
+  static const FontWeight titleFontWeight = FontWeight.w500;
+  static const double normalFontSize = 17.5;
   static const FontWeight normalFontWeight = FontWeight.w600;
-  static const double achievementFontSize = 18.0;
+  static const double achievementFontSize = 17.5;
   static const FontWeight achievementFontWeight = FontWeight.w900;
 }
 
@@ -70,17 +70,18 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
                 ),
               ),
             ),
-            hspace(5.0),
+            hspace(7.0),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width * 0.50,
+              height: MediaQuery.of(context).size.width * 0.47,
+              padding: const EdgeInsets.fromLTRB(15.0, 0, 25.0, 0),
               decoration: const BoxDecoration(
                 color: darkBlue,
                 borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
+                  Radius.circular(14.0),
                 ),
               ),
-              child: Container(
+              child: SizedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -97,8 +98,9 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
+                            alignment: Alignment.center,
                             child: Text(
-                              "$todoListCount개의 할일 중\n$checkListCount개를 완료했어요.",
+                              "$todoListCount개의 할 일 중\n$checkListCount개를 완료했어요.",
                               style: const TextStyle(
                                 color: mainWhite,
                                 fontSize:
@@ -110,27 +112,25 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
                           ),
                           hspace(20.0),
                           FractionallySizedBox(
-                            widthFactor: 0.7,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    const MaterialStatePropertyAll(mainBlue),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
+                            widthFactor: 0.9,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 50.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  color: const Color(0xff9DB4CF),
                                 ),
-                              ),
-                              onPressed: _scrollToTarget,
-                              child: const Text(
-                                "할 일 확인하기",
-                                style: TextStyle(
-                                  color: mainBlack,
-                                  fontSize:
-                                      CheckListTodayChartStyle.normalFontSize,
-                                  fontWeight:
-                                      CheckListTodayChartStyle.normalFontWeight,
+                                child: const Text(
+                                  "할 일 확인하기",
+                                  style: TextStyle(
+                                    color: mainBlack,
+                                    fontSize:
+                                        CheckListTodayChartStyle.normalFontSize,
+                                    fontWeight: CheckListTodayChartStyle
+                                        .normalFontWeight,
+                                  ),
                                 ),
                               ),
                             ),
@@ -188,6 +188,7 @@ class _DonutChartState extends State<_DonutChart> {
               style: const TextStyle(
                 color: mainWhite,
                 fontSize: 20,
+                fontWeight: FontWeight.w900,
               ),
             ),
           ),
@@ -197,6 +198,7 @@ class _DonutChartState extends State<_DonutChart> {
         DoughnutSeries<_ChartData, String>(
           dataSource: data,
           innerRadius: "67%",
+          radius: "95%",
           xValueMapper: (_ChartData data, _) => data.label,
           yValueMapper: (_ChartData data, _) => data.value,
           pointColorMapper: (_ChartData data, _) => data.color,

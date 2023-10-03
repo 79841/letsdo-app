@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/query/check_list.dart';
 import 'package:intl/intl.dart';
+import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -9,11 +10,11 @@ import '../provider/check_list.dart';
 import '../provider/todo_list.dart';
 
 class CheckListWeekGraphStyle {
-  static const double titleFontSize = 16.0;
-  static const FontWeight titleFontWeight = FontWeight.w600;
-  static const double iconSize = 15.0;
-  static const double dayFontSize = 15.0;
-  static const FontWeight dayFontWeight = FontWeight.w500;
+  static const double titleFontSize = 16.5;
+  static const FontWeight titleFontWeight = FontWeight.w700;
+  static const double iconSize = 20.0;
+  static const double dayFontSize = 14.5;
+  static const FontWeight dayFontWeight = FontWeight.w600;
 }
 
 class DailyCheckList {
@@ -51,6 +52,7 @@ class CheckListWeekGraph extends StatelessWidget {
     return Consumer<CheckList>(
       builder: (_, __, ___) {
         return FutureBuilder(
+          future: fetchCheckListForPeriod(startOfWeekStr, endOfWeekStr),
           builder: (context, snapshot) {
             final List<DailyCheckList> checkListForWeek = [];
 
@@ -85,7 +87,7 @@ class CheckListWeekGraph extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: mainWhite,
                 borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
+                  Radius.circular(14.0),
                 ),
               ),
               child: Padding(
@@ -95,6 +97,7 @@ class CheckListWeekGraph extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
@@ -109,6 +112,7 @@ class CheckListWeekGraph extends StatelessWidget {
                               ),
                             ),
                           ),
+                          wspace(10.0),
                           const Icon(
                             Icons.arrow_forward_ios,
                             color: mainBlack,
@@ -154,7 +158,6 @@ class CheckListWeekGraph extends StatelessWidget {
               ),
             );
           },
-          future: fetchCheckListForPeriod(startOfWeekStr, endOfWeekStr),
         );
       },
     );
@@ -240,7 +243,7 @@ class _DonutChartState extends State<_DonutChart> {
     final List<_ChartData> data = [
       _ChartData('Completed', widget.checkListCount, darkBlue),
       _ChartData(
-          'Not yet', widget.todoListCount - widget.checkListCount, mainGray),
+          'Not yet', widget.todoListCount - widget.checkListCount, lightGray),
     ];
 
     return SfCircularChart(
@@ -250,8 +253,8 @@ class _DonutChartState extends State<_DonutChart> {
       series: <CircularSeries>[
         DoughnutSeries<_ChartData, String>(
           dataSource: data,
-          innerRadius: "55%",
-          radius: "135%",
+          innerRadius: "50%",
+          radius: "140%",
           xValueMapper: (_ChartData data, _) => data.label,
           yValueMapper: (_ChartData data, _) => data.value,
           pointColorMapper: (_ChartData data, _) => data.color,

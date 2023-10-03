@@ -34,7 +34,7 @@ Future<Uint8List> fetchProfileImage([int? userId]) async {
 
   final url = userId == null
       ? Uri.parse("$SERVER_URL/profile")
-      : Uri.parse("$SERVER_URL/profile/$userId");
+      : Uri.parse("$SERVER_URL/profile/id/$userId");
   final response = await http.get(url, headers: headers);
 
   if (response.statusCode == 200) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/provider/auth.dart';
 import 'package:ksica/screen/home_screen.dart';
-import 'package:ksica/screen/login_register_screen.dart';
+import 'package:ksica/screen/token_login_screen.dart';
 import 'package:provider/provider.dart';
 
 class WidgetTree extends StatefulWidget {
@@ -16,6 +16,6 @@ class _WidgetTreeState extends State<WidgetTree> {
   Widget build(BuildContext context) {
     return context.watch<Auth>().auth
         ? const HomeScreen()
-        : const LoginScreen();
+        : const TokenLoginScreen();
   }
 }

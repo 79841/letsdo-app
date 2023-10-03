@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../utils/navigator.dart';
 
 class IconNavigationBarStyle {
-  static const double fontSize = 15.0;
-  static const double iconSize = 35.0;
+  static const double fontSize = 16.0;
+  static const double iconSize = 40.0;
 }
 
 class _NavigationData {
@@ -78,7 +78,8 @@ class IconNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 20.0, 0),
-      width: MediaQuery.of(context).size.width * 0.22,
+      width: MediaQuery.of(context).size.width * 0.23,
+      height: MediaQuery.of(context).size.width * 0.23,
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(mainWhite),

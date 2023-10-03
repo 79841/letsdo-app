@@ -7,7 +7,7 @@ import '../provider/check_list.dart';
 import '../query/check_list.dart';
 
 class ToDoStyle {
-  static const double todoListFontSize = 15.0;
+  static const double todoListFontSize = 16.0;
   static const FontWeight todoListFontWeight = FontWeight.w400;
 }
 
@@ -80,36 +80,63 @@ class _ToDoCheckBoxState extends State<ToDoCheckBox> {
       return darkBlue;
     }
 
-    return Container(
-      alignment: Alignment.centerLeft,
-      width: 18.0,
-      height: 18.0,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5.0),
+    return _CheckBox(
+      code: widget.code,
+      isChecked: widget.isChecked,
+    );
+  }
+}
+
+class CheckBoxStyle {
+  static const double iconSize = 25.0;
+}
+
+class _CheckBox extends StatefulWidget {
+  final int code;
+  final bool isChecked;
+  const _CheckBox({required this.code, required this.isChecked});
+
+  @override
+  State<_CheckBox> createState() => __CheckBoxState();
+}
+
+class __CheckBoxState extends State<_CheckBox> {
+  bool isChecked = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    isChecked = widget.isChecked;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        await Provider.of<CheckList>(context, listen: false)
+            .updateCheckStates(widget.code, !isChecked);
+        await updateCheckList(
+            Provider.of<CheckList>(context, listen: false).checkStates);
+        await Provider.of<CheckList>(context, listen: false).fetchCheckStates();
+        setState(() {
+          isChecked = !isChecked;
+        });
+      },
+      child: Container(
+        width: 26.0,
+        height: 26.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.0),
+          color: isChecked ? darkBlue : mainWhite,
         ),
-        color: mainWhite,
-      ),
-      child: Checkbox(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        fillColor: isChecked
-            ? MaterialStateProperty.all(darkBlue)
-            : MaterialStateProperty.all(mainWhite),
-        visualDensity: VisualDensity.standard,
-        value: isChecked,
-        onChanged: (bool? value) async {
-          await Provider.of<CheckList>(context, listen: false)
-              .updateCheckStates(widget.code, value ?? false);
-          await updateCheckList(
-              Provider.of<CheckList>(context, listen: false).checkStates);
-          await Provider.of<CheckList>(context, listen: false)
-              .fetchCheckStates();
-          setState(() {
-            isChecked = value!;
-          });
-        },
+        child: isChecked
+            ? const Icon(
+                Icons.check,
+                color: mainWhite,
+                size: CheckBoxStyle.iconSize,
+              )
+            : Container(),
       ),
     );
   }

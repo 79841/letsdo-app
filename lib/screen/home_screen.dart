@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  hspace(10.0),
                   CheckListTodayChart(
                     targetKey: targetKey,
                     controller: _controller,

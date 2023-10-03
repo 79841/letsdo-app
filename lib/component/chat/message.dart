@@ -33,16 +33,29 @@ class MessageBoxes extends StatefulWidget {
 }
 
 class MessageBoxesState extends State<MessageBoxes> {
+  bool showMessages = false;
   @override
   void initState() {
     super.initState();
   }
 
+  void scrollToBottomAndShowMessages() {
+    if (showMessages) {
+      return;
+    }
+    widget.scrollToBottom();
+    Timer(const Duration(milliseconds: 100), () {
+      setState(() {
+        showMessages = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer(const Duration(milliseconds: 300), widget.scrollToBottom);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Timer(const Duration(milliseconds: 300), widget.scrollToBottom);
+    // });
     return Container(
       padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       child: FutureBuilder<Uint8List>(
@@ -50,7 +63,8 @@ class MessageBoxesState extends State<MessageBoxes> {
         builder: (context, snapshot) {
           Uint8List? opponentProfileImage = snapshot.data;
 
-          return ListView.builder(
+          ListView messages = ListView.builder(
+            // reverse: true,
             shrinkWrap: true,
             controller: widget.scrollController,
             itemCount: widget.messages.length,
@@ -108,6 +122,8 @@ class MessageBoxesState extends State<MessageBoxes> {
               );
             },
           );
+          scrollToBottomAndShowMessages();
+          return showMessages ? messages : const CircularProgressIndicator();
         },
       ),
     );

@@ -47,7 +47,7 @@ class SubLayout extends StatelessWidget {
           title,
           style: const TextStyle(
             color: Colors.black,
-            fontSize: 20.0,
+            fontSize: 25.0,
           ),
         ),
         centerTitle: true,

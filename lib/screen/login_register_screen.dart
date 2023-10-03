@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../provider/auth.dart';
 import '../query/auth.dart';
 import '../utils/space.dart';
+import 'home_screen.dart';
 
 class LoginScreenStyle {
   static const double logoFontSize = 25.0;
@@ -121,6 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
             context,
             () {
               context.read<Auth>().authorize();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen(),
+                ),
+              );
             },
           );
         },
@@ -230,7 +236,45 @@ class _LoginScreenState extends State<LoginScreen> {
             isLogin = true;
           });
         },
-        child: const Text('Register'),
+        child: const Text(
+          "회원가입",
+          style: TextStyle(
+            color: mainWhite,
+            fontSize: LoginScreenStyle.buttonFontSize,
+            fontWeight: LoginScreenStyle.buttonFontWeight,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _changeLoginMode(BuildContext context) {
+    return SizedBox(
+      width: LoginScreenStyle.boxWidth,
+      height: LoginScreenStyle.boxHeight,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(mainBlue),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        ),
+        onPressed: () {
+          setState(
+            () {
+              isLogin = true;
+            },
+          );
+        },
+        child: const Text(
+          '로그인',
+          style: TextStyle(
+            fontSize: LoginScreenStyle.buttonFontSize,
+            fontWeight: LoginScreenStyle.buttonFontWeight,
+          ),
+        ),
       ),
     );
   }
@@ -279,6 +323,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           hspace(LoginScreenStyle.bottomMargin),
           _registerButton(context),
+          hspace(LoginScreenStyle.bottomMargin),
+          _changeLoginMode(context),
         ],
       ),
     );
