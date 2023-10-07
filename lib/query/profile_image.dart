@@ -56,7 +56,7 @@ Future<void> uploadProfileImage(File image) async {
   var response = await request.send();
 
   if (response.statusCode == 200) {
-    print('File uploaded successfully');
+    print("Image uploaded successfully");
   } else {
     print('Failed to upload file. Error: ${response.reasonPhrase}');
   }

@@ -34,12 +34,14 @@ void goToWebSiteNotification() {
   );
 }
 
-void goToProfile(BuildContext context) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (BuildContext context) => const ProfileScreen(),
-    ),
-  );
+void goToProfile(BuildContext context, FutureOr<dynamic> Function() callback) {
+  Navigator.of(context)
+      .push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => const ProfileScreen(),
+        ),
+      )
+      .then((value) => callback());
 }
 
 void goToLogin(BuildContext context) {

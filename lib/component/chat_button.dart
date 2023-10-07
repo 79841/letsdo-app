@@ -70,7 +70,6 @@ class ChatButtonState extends State<ChatButton> {
                   int unreadMessageCount = 0;
                   if (snapshot.hasData) {
                     unreadMessageCount = json.decode(snapshot.data);
-                    print(unreadMessageCount);
                   }
                   if (unreadMessageCount > 0) {
                     unreadMessageExist = true;

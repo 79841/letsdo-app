@@ -27,10 +27,15 @@ class MainLayoutStyle {
   static const FontWeight drawerHeaderFontWeight = FontWeight.w500;
 }
 
-class MainLayout extends StatelessWidget {
+class MainLayout extends StatefulWidget {
   final Widget child;
-  MainLayout({required this.child, super.key});
+  const MainLayout({required this.child, super.key});
 
+  @override
+  State<MainLayout> createState() => _MainLayoutState();
+}
+
+class _MainLayoutState extends State<MainLayout> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> signOut(BuildContext context, VoidCallback onSuccess) async {
@@ -62,29 +67,33 @@ class MainLayout extends StatelessWidget {
     );
   }
 
-  Future<int> getChatroomId() async {
+  Future<void> getChatroomId(BuildContext context) async {
     Map<String, dynamic> chatroom = await fetchChatroom();
 
     if (!chatroom.containsKey("chatroom_id")) {
       chatroom = await createChatroom();
-      return chatroom["id"];
+      Provider.of<Chatroom>(context, listen: false)
+          .setChatroomId(chatroom["id"]);
+    } else {
+      Provider.of<Chatroom>(context, listen: false)
+          .setChatroomId(chatroom["chatroom_id"]);
     }
-
-    return chatroom["chatroom_id"];
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getChatroomId(),
+      future: getChatroomId(context),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            backgroundColor: lightBlue,
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
-        Provider.of<Chatroom>(context, listen: false)
-            .setChatroomId(snapshot.data!);
+
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -123,7 +132,9 @@ class MainLayout extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => goToProfile(context),
+                          onTap: () => goToProfile(context, () {
+                            setState(() {});
+                          }),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,7 +190,11 @@ class MainLayout extends StatelessWidget {
                       color: mainBlack,
                     ),
                   ),
-                  onTap: () => goToWebSite(),
+                  onTap: () => goToChat(context,
+                      Provider.of<Chatroom>(context, listen: false).chatroomId,
+                      (value) {
+                    setState(() {});
+                  }),
                 ),
                 ListTile(
                   trailing: const Icon(
@@ -211,7 +226,7 @@ class MainLayout extends StatelessWidget {
             ),
           ),
           backgroundColor: MainLayoutStyle.bgColor,
-          body: child,
+          body: widget.child,
           bottomNavigationBar: BottomBar(
             scaffoldKey: _scaffoldKey,
           ),

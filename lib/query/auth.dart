@@ -44,8 +44,6 @@ Future<void> createUserWithEmailAndPassword(
 Future<dynamic> signInWithToken() async {
   const storage = FlutterSecureStorage();
   String? token = await storage.read(key: "Authorization");
-  print("token");
-  print(token);
   Map<String, String> headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
