@@ -37,26 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     onSuccess.call();
   }
 
-  Widget _signOutButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        signOut(
-          context,
-          () {
-            context.read<Auth>().unauthorize();
-          },
-        );
-      },
-      child: const Text("Sign Out"),
-    );
-  }
-
-  Widget _hSpace(double height) {
-    return SizedBox(
-      height: height,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MainLayout(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/component/bottom_bar.dart';
+import 'package:ksica/component/dialog/loading_dialog.dart';
 import 'package:ksica/config/style.dart';
 import 'package:ksica/provider/user_info.dart';
 import 'package:ksica/query/chatroom.dart';
 import 'package:ksica/screen/home_screen.dart';
+import 'package:ksica/utils/fetch_with_retry.dart';
 import 'package:ksica/utils/navigator.dart';
 import 'package:provider/provider.dart';
 
@@ -83,13 +85,14 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getChatroomId(context),
+      future: fetchWithRetry(() async => await getChatroomId(context)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             backgroundColor: lightBlue,
             body: Center(
-              child: CircularProgressIndicator(),
+              // child: CircularProgressIndicator(),
+              child: LoadingDialog(),
             ),
           );
         }
