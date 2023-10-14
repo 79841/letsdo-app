@@ -20,13 +20,14 @@ class MessageBoxes extends StatefulWidget {
   final List<Map<String, dynamic>> messages;
   final int userId;
   final int? opponentId;
-  const MessageBoxes(
-      {super.key,
-      required this.scrollController,
-      required this.scrollToBottom,
-      required this.messages,
-      required this.userId,
-      required this.opponentId});
+  const MessageBoxes({
+    super.key,
+    required this.scrollController,
+    required this.scrollToBottom,
+    required this.messages,
+    required this.userId,
+    required this.opponentId,
+  });
 
   @override
   State<MessageBoxes> createState() => MessageBoxesState();
@@ -43,8 +44,8 @@ class MessageBoxesState extends State<MessageBoxes> {
     if (showMessages) {
       return;
     }
-    widget.scrollToBottom();
     Timer(const Duration(milliseconds: 200), () {
+      widget.scrollToBottom();
       setState(() {
         showMessages = true;
       });
@@ -53,9 +54,9 @@ class MessageBoxesState extends State<MessageBoxes> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer(const Duration(milliseconds: 300), widget.scrollToBottom);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Timer(const Duration(milliseconds: 300), widget.scrollToBottom);
+    // });
     return Container(
       padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       child: FutureBuilder<Uint8List>(
@@ -123,7 +124,7 @@ class MessageBoxesState extends State<MessageBoxes> {
             },
           );
           scrollToBottomAndShowMessages();
-          return showMessages ? messages : const CircularProgressIndicator();
+          return showMessages ? messages : Container();
         },
       ),
     );

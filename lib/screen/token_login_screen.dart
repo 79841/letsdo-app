@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:ksica/config/style.dart';
-import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 
+import '../component/dialog/loading_dialog.dart';
 import '../provider/auth.dart';
 import '../provider/user_info.dart';
 import '../query/auth.dart';
@@ -51,39 +50,7 @@ class TokenLoginScreen extends StatelessWidget {
           });
         }
 
-        return Scaffold(
-          body: Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: lightBlue,
-            child: Container(
-              alignment: Alignment.center,
-              height: 100.0,
-              width: 200.0,
-              child: Column(
-                children: [
-                  const Text(
-                    "로그인 진행 중",
-                    style: TextStyle(
-                      color: mainBlack,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  hspace(10.0),
-                  const SizedBox(
-                    height: 30.0,
-                    width: 30.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 4.0,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return const LoadingDialog(text: "로그인 진행 중 입니다.");
       },
     );
   }

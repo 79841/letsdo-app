@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ksica/component/dialog/warning_dialog.dart';
 import 'package:ksica/component/input_box.dart';
 import 'package:ksica/config/style.dart';
 import 'package:ksica/provider/user_info.dart';
@@ -45,21 +46,31 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isValidFormat = true;
 
   Future<void> signIn(BuildContext context, VoidCallback onSuccess) async {
-    final response = await signInWithEmailAndPassword(
-        _controllerEmail.text, _controllerPassword.text);
+    try {
+      final response = await signInWithEmailAndPassword(
+          _controllerEmail.text, _controllerPassword.text);
+      final token = json.decode(response.body)['Authorization'];
+      await storage.write(
+        key: "Authorization",
+        value: token,
+      );
+      final userInfo = await getUserInfo();
 
-    final token = json.decode(response.body)['Authorization'];
-    await storage.write(
-      key: "Authorization",
-      value: token,
-    );
-    final userInfo = await getUserInfo();
-
-    if (mounted) {
-      Provider.of<Auth>(context, listen: false).setToken(token);
-      Provider.of<UserInfo>(context, listen: false).setUserData(userInfo);
+      if (mounted) {
+        Provider.of<Auth>(context, listen: false).setToken(token);
+        Provider.of<UserInfo>(context, listen: false).setUserData(userInfo);
+      }
+      onSuccess.call();
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return WarningDialog(
+            text: e.toString().split(': ')[1],
+          );
+        },
+      );
     }
-    onSuccess.call();
   }
 
   Widget _logo() {
@@ -110,10 +121,14 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () {
           if (!isEmailValid(_controllerEmail.text)) {
-            setState(() {
-              _isValidFormat = false;
-              errorMessage = "잘못된 이메일 형식입니다.";
-            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const WarningDialog(
+                  text: "잘못된 이메일 형식입니다.",
+                );
+              },
+            );
             return;
           }
           _isValidFormat = true;
@@ -224,17 +239,28 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         onPressed: () async {
-          await createUserWithEmailAndPassword(
-            _controllerEmail.text,
-            _controllerUserName.text,
-            _controllerPassword.text,
-          );
-          _controllerEmail.text = "";
-          _controllerPassword.text = "";
-          _controllerUserName.text = "";
-          setState(() {
-            isLogin = true;
-          });
+          try {
+            await createUserWithEmailAndPassword(
+              _controllerEmail.text,
+              _controllerUserName.text,
+              _controllerPassword.text,
+            );
+            _controllerEmail.text = "";
+            _controllerPassword.text = "";
+            _controllerUserName.text = "";
+            setState(() {
+              isLogin = true;
+            });
+          } catch (e) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return WarningDialog(
+                  text: e.toString().split(': ')[1],
+                );
+              },
+            );
+          }
         },
         child: const Text(
           "회원가입",
@@ -262,6 +288,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         onPressed: () {
+          _controllerEmail.text = "";
+          _controllerPassword.text = "";
+          _controllerUserName.text = "";
           setState(
             () {
               isLogin = true;

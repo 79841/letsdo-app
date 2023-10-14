@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/component/bottom_bar.dart';
 import 'package:ksica/component/dialog/loading_dialog.dart';
+import 'package:ksica/component/dialog/retry_dialog.dart';
 import 'package:ksica/config/style.dart';
 import 'package:ksica/provider/user_info.dart';
 import 'package:ksica/query/chatroom.dart';
@@ -38,6 +39,7 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
+  bool isDialogShowing = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> signOut(BuildContext context, VoidCallback onSuccess) async {
@@ -52,14 +54,14 @@ class _MainLayoutState extends State<MainLayout> {
     onSuccess.call();
   }
 
-  void _goToHome(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => const HomeScreen(),
-      ),
-    );
-  }
+  // void _goToHome(BuildContext context) {
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (BuildContext context) => const HomeScreen(),
+  //     ),
+  //   );
+  // }
 
   void _goToProfile(BuildContext context) {
     Navigator.of(context).push(
@@ -85,15 +87,17 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchWithRetry(() async => await getChatroomId(context)),
+      future: fetchWithRetry(() async => await getChatroomId(context), 2),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            backgroundColor: lightBlue,
-            body: Center(
-              // child: CircularProgressIndicator(),
-              child: LoadingDialog(),
-            ),
+          return const LoadingDialog(text: "데이터를 불러오는 중 입니다.");
+        }
+        if (snapshot.hasError) {
+          return ReloadDialog(
+            text: "데이터를 불러오는데 실패했습니다.",
+            reload: () {
+              setState(() {});
+            },
           );
         }
 

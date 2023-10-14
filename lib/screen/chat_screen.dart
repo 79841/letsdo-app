@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -34,11 +35,27 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _addMessage(Map<String, dynamic> message) {
     messages0.add(message);
+    Timer(
+      const Duration(milliseconds: 200),
+      () {
+        _slideToBottom();
+      },
+    );
   }
 
   void _scrollToBottom() {
     if (scrollController.hasClients) {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    }
+  }
+
+  void _slideToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -66,7 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       snapshot.data?[0].toList() ?? [];
                   messages0.addAll(messages);
                 }
-                int? opponentId = snapshot.data?[1]?["user_id"];
+                int? opponentId = snapshot.data?[1]?["opponent_id"];
                 channel = IOWebSocketChannel.connect(
                   Uri.parse(
                       '$WEBSOCKET_SERVER_URL/message/ws/$chatroomId?token=${auth.token}'),

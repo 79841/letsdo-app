@@ -96,12 +96,7 @@ class _CheckListScreenState extends State<CheckList> {
             FutureBuilder(
               future: _initCheckStates(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return _checkList();
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return _checkList();
               },
             ),
           ],
