@@ -119,12 +119,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         },
                       ),
                     ),
-                    Expanded(
-                      child: MessageInputBox(
-                        channel: channel,
-                        scrollToBottom: _scrollToBottom,
-                        scrollcontroller: scrollController,
-                      ),
+                    MessageInputBox(
+                      channel: channel,
+                      scrollToBottom: _scrollToBottom,
+                      scrollcontroller: scrollController,
                     ),
                   ],
                 );

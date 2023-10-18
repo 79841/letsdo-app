@@ -12,7 +12,8 @@ class CheckListStyle {
 }
 
 class CheckList extends StatefulWidget {
-  const CheckList({super.key});
+  final GlobalKey targetKey;
+  const CheckList({required this.targetKey, super.key});
 
   @override
   State<CheckList> createState() => _CheckListScreenState();
@@ -28,6 +29,7 @@ class _CheckListScreenState extends State<CheckList> {
 
   Widget _checkList() {
     return Container(
+      key: widget.targetKey,
       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -48,6 +50,9 @@ class _CheckListScreenState extends State<CheckList> {
               children:
                   Provider.of<TodoList>(context, listen: false).todoList.map(
                 (e) {
+                  print(e);
+                  print(Provider.of<clp.CheckList>(context, listen: false)
+                      .checkStates);
                   bool isChecked = false;
                   for (var v
                       in Provider.of<clp.CheckList>(context, listen: false)

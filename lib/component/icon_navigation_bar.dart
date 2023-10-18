@@ -17,8 +17,15 @@ class _NavigationData {
 }
 
 class IconNavigationBar extends StatefulWidget {
+  final GlobalKey targetKey;
+  final ScrollController controller;
   final BuildContext pageContext;
-  const IconNavigationBar({required this.pageContext, super.key});
+  const IconNavigationBar({
+    required this.targetKey,
+    required this.controller,
+    required this.pageContext,
+    super.key,
+  });
 
   @override
   State<IconNavigationBar> createState() => _IconNavigationBarState();
@@ -42,7 +49,14 @@ class _IconNavigationBarState extends State<IconNavigationBar> {
       _NavigationData(Icons.language, "홈페이지", () => goToWebSite()),
       _NavigationData(
           Icons.notifications_none, "공지사항", () => goToWebSiteNotification()),
-      _NavigationData(Icons.warning_amber_rounded, "추가", () {}),
+      _NavigationData(
+        Icons.list_rounded,
+        "할 일",
+        () => goToTodoList(
+          widget.targetKey,
+          widget.controller,
+        ),
+      ),
     ];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,

@@ -8,7 +8,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/skj974600/kscia-admin-app">
+  <a href="https://github.com/skj974600/kscia-app">
     <img src="./assets/images/readme/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -17,14 +17,14 @@
   <p align="center">
     Admin App for managing and consulting KSCIA app users 
     <br />
-    <a href="https://github.com/skj974600/kscia-admin-app"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/skj974600/kscia-app"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/skj974600/kscia-admin-app">View Demo</a>
+    <a href="https://github.com/skj974600/kscia-app">View Demo</a>
     ·
-    <a href="https://github.com/skj974600/kscia-admin-app/issues">Report Bug</a>
+    <a href="https://github.com/skj974600/kscia-app/issues">Report Bug</a>
     ·
-    <a href="https://github.com/skj974600/kscia-admin-app/issues">Request Feature</a>
+    <a href="https://github.com/skj974600/kscia-app/issues">Request Feature</a>
   </p>
 </div>
 
@@ -56,10 +56,11 @@
 
 <!-- ![Product Screen Shot][product-screenshot] -->
 <div style="display: flex; justify-content: space-between;">
-    <img src="./assets/images/readme/product_screen_1.png" alt="Image 1 description" style="width: 23%; margin-right: 2%;">
-    <img src="./assets/images/readme/product_screen_2.png" alt="Image 1 description" style="width: 23%; margin-right: 2%;">
-    <img src="./assets/images/readme/product_screen_3.png" alt="Image 1 description" style="width: 23%; margin-right: 2%;">
-    <img src="./assets/images/readme/product_screen_4.png" alt="Image 1 description" style="width: 23%;">
+    <img src="./assets/images/readme/product_screen_1.png" alt="Home Screen" style="width: 19%;">
+    <img src="./assets/images/readme/product_screen_2.png" alt="To-do Checklist" style="width: 19%; ">
+    <img src="./assets/images/readme/product_screen_3.png" alt="Consultation Screen" style="width: 19%; ">
+    <img src="./assets/images/readme/product_screen_4.png" alt="Login Screen" style="width: 19%;">
+    <img src="./assets/images/readme/product_screen_5.png" alt="Register Screen" style="width: 19%;">
 </div>
 
 &nbsp;
@@ -74,7 +75,7 @@ Features include:
 
 Through this app, we hope to simplify access to the services provided to individuals with spinal cord injuries, potentially enhancing their quality of life.
 
-The current repository focuses on the admin app component.
+The current repository focuses on the client app component.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -108,7 +109,7 @@ _Below is an example of how you can install and set up your app._
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/skj974600/kscia-admin-app.git
+   git clone https://github.com/skj974600/kscia-app.git
    ```
 
 2. Install packages and run
@@ -124,83 +125,74 @@ _Below is an example of how you can install and set up your app._
 
 ## Usage
 
-<div style="display: flex; margin-bottom: 2rem;">
-    <img src="./assets/images/readme/product_screen_1.png" alt="Image 1 description" align="left" style="width: 23%;margin-right:1rem;">
-    <div >
-      <ul style="display:flex;flex-direction:column;">
-        <span>&nbsp;</span><li style="margin-bottom:1rem;">Home screen</li>
-        &nbsp;<li style="margin-bottom:1rem;">User list viewable</li>
-        &nbsp;<li style="margin-bottom:1rem;">Search and view users</li>
-        &nbsp;<li style="margin-bottom:1rem;">Tap on a user to check the user's checklist status</li>
-        &nbsp;<li style="margin-bottom:1rem;">Clicking the chat icon redirects to the counseling page</li>
-        &nbsp;<li style="margin-bottom:1rem;">New messages displayed if available</li>
-      </ul>
-    </div>
-</div>
-<br clear="left"/>
-&nbsp;
-<div style="display:flex; margin-bottom:2rem;">
-    <img src="./assets/images/readme/product_screen_2.png" alt="Image 1 description" align="left" style="width: 23%;margin-right:1rem;">
-    <div>
-      <ul style="display:flex;flex-direction:column;">
-        <li style="margin-bottom:1rem;">Chat room list screen</li>
-        &nbsp;<li style="margin-bottom:1rem;">Listed in order of most recent messages</li>
-        &nbsp;<li style="margin-bottom:1rem;">Display new message notifications</li>
-        &nbsp;<li style="margin-bottom:1rem;">Show last message</li>
-        &nbsp;<li style="margin-bottom:1rem;">Click to move to consultation page</li>
-      </ul>
-    </div>
-</div>
-<br clear="left"/>
-&nbsp;
+<a name="usage"></a>
 
-<div style="display:flex; margin-bottom:2rem;">
-    <img src="./assets/images/readme/product_screen_3.png" alt="Image 1 description" align="left" style="width: 23%;margin-right:1rem;">
-    <div>
-      <ul style="display:flex;flex-direction:column;">
-        <li style="margin-bottom:1rem;">User information screen</li>
-        &nbsp;<li style="margin-bottom:1rem;">Donut chart of user’s today’s checklist performance</li>
-        &nbsp;<li style="margin-bottom:1rem;">Table showing user checklist performance by week</li>
-        &nbsp;<li style="margin-bottom:1rem;">Display completed checklists</li>
-        &nbsp;<li style="margin-bottom:1rem;">Click the chat icon to go to the consultation screen</li>
-      </ul>
-    </div>
-</div>
-<br clear="left"/>
-&nbsp;
+<table>
+  <tr>
+<td>
+    <img src="./assets/images/readme/product_screen_1.png" align="center" alt="Home Screen" style="width: 220px;" />
+</td>
+    <td>
+    <div><li>Home screen</li></div>&nbsp;
+    <div><li>Donut chart of user’s today’s checklist performance</li></div>&nbsp;
+    <div><li>Donut chart of user’s weekly checklist performance</li></div>&nbsp;
+    <div><li>"Web portal, Announcements, Consultation" icon navigation.</li></div>&nbsp;
+</td>
+  </tr>
+  <tr>
+<td>
+    <img src="./assets/images/readme/product_screen_2.png" alt="To-do Checklist" align="left" style="width: 220px;" />
+</td>
+    <td>
+    <div><li>To-do checklist: check status reflected in chart</li></div>&nbsp;
+        
+</td>
 
-<div style="display:flex; margin-bottom:2rem;">
-    <img src="./assets/images/readme/product_screen_4.png" alt="Image 1 description" align="left"style="width: 23%;margin-right:1rem;">
-    <div>
-      <ul style="display:flex;flex-direction:column;">
-        <li style="margin-bottom:1rem;">Consultation screen</li>
-        &nbsp;<li style="margin-bottom:1rem;">Consultation with users in real time is possible and the consultation details are saved</li>
-      </ul>
-    </div>
-</div>
-<br clear="left"/>
-&nbsp;
+</tr>
+  <tr>
+<td>
+    <img src="./assets/images/readme/product_screen_3.png" alt="Consultation Screen" align="left" style="width: 220px;"  />
+</td>
+    <td>
+        <div><li>Consultation screen</li></div>&nbsp;
+        <div><li>Consultation with users in real time is possible and the consultation details are saved</li></div>&nbsp;
+</td>
 
+  </tr>
+  <tr>
+<td>
+    <img src="./assets/images/readme/product_screen_4.png" alt="Login and Register Screen" align="left" style="width: 220px;" />
+</td>
+
+<td>
+        <div><li>Login and register screen</li></div>&nbsp;
+        <div><li>Log in with email and password</li></div>&nbsp;
+        <div><li>Sign up with email, name, and password</li></div>&nbsp;
+        <div><li>Switch between login mode and membership registration mode</li></div>&nbsp;
+</td>
+
+</tr>
+</table>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contact
 
 `Letmedev` - <79841@naver.com>
 
-Project Link: [https://github.com/skj974600/kscia-admin-app](https://github.com/skj974600/kscia-admin-app)
+Project Link: [https://github.com/skj974600/kscia-app](https://github.com/skj974600/kscia-app)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/skj974600/kscia-admin-app.svg?style=for-the-badge
-[contributors-url]: https://github.com/skj974600/kscia-admin-app/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/skj974600/kscia-admin-app.svg?style=for-the-badge
-[forks-url]: https://github.com/skj974600/kscia-admin-app/network/members
-[stars-shield]: https://img.shields.io/github/stars/skj974600/kscia-admin-app.svg?style=for-the-badge
-[stars-url]: https://github.com/skj974600/kscia-admin-app/stargazers
-[issues-shield]: https://img.shields.io/github/issues/skj974600/kscia-admin-app.svg?style=for-the-badge
-[issues-url]: https://github.com/skj974600/kscia-admin-app/issues
+[contributors-shield]: https://img.shields.io/github/contributors/skj974600/kscia-app.svg?style=for-the-badge
+[contributors-url]: https://github.com/skj974600/kscia-app/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/skj974600/kscia-app.svg?style=for-the-badge
+[forks-url]: https://github.com/skj974600/kscia-app/network/members
+[stars-shield]: https://img.shields.io/github/stars/skj974600/kscia-app.svg?style=for-the-badge
+[stars-url]: https://github.com/skj974600/kscia-app/stargazers
+[issues-shield]: https://img.shields.io/github/issues/skj974600/kscia-app.svg?style=for-the-badge
+[issues-url]: https://github.com/skj974600/kscia-app/issues
 [product-screenshot]: images/readme/product_screenshot.png
 [Flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white
 [Flutter-url]: https://flutter.dev/

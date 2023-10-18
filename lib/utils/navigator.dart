@@ -51,3 +51,14 @@ void goToLogin(BuildContext context) {
     ),
   );
 }
+
+void goToTodoList(GlobalKey targetKey, ScrollController controller) {
+  final targetPosition =
+      targetKey.currentContext!.findRenderObject() as RenderBox;
+  final position = targetPosition.localToGlobal(Offset.zero);
+  controller.animateTo(
+    position.dy,
+    duration: const Duration(milliseconds: 600),
+    curve: Curves.linear,
+  );
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/config/style.dart';
+import 'package:ksica/utils/navigator.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -28,16 +29,16 @@ class CheckListTodayChart extends StatefulWidget {
 }
 
 class _CheckListTodayChartState extends State<CheckListTodayChart> {
-  _scrollToTarget() {
-    final targetPosition =
-        widget.targetKey.currentContext!.findRenderObject() as RenderBox;
-    final position = targetPosition.localToGlobal(Offset.zero);
-    widget.controller.animateTo(
-      position.dy,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
+  // _scrollToTarget() {
+  //   final targetPosition =
+  //       widget.targetKey.currentContext!.findRenderObject() as RenderBox;
+  //   final position = targetPosition.localToGlobal(Offset.zero);
+  //   widget.controller.animateTo(
+  //     position.dy,
+  //     duration: const Duration(milliseconds: 600),
+  //     curve: Curves.linear,
+  //   );
+  // }
 
   Future<List<dynamic>> fetchData() async {
     List<dynamic> todoList = await fetchTodoList();
@@ -114,7 +115,10 @@ class _CheckListTodayChartState extends State<CheckListTodayChart> {
                           FractionallySizedBox(
                             widthFactor: 0.9,
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () => goToTodoList(
+                                widget.targetKey,
+                                widget.controller,
+                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 height: 50.0,

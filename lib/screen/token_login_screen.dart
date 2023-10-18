@@ -31,22 +31,25 @@ class TokenLoginScreen extends StatelessWidget {
               key: "Authorization",
               value: token,
             );
+            try {
+              final userInfo = await getUserInfo();
 
-            final userInfo = await getUserInfo();
+              if (context.mounted) {
+                Provider.of<Auth>(context, listen: false).setToken(token);
+                Provider.of<UserInfo>(context, listen: false)
+                    .setUserData(userInfo);
+              }
 
-            if (context.mounted) {
-              Provider.of<Auth>(context, listen: false).setToken(token);
-              Provider.of<UserInfo>(context, listen: false)
-                  .setUserData(userInfo);
+              context.read<Auth>().authorize();
+
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen(),
+                ),
+              );
+            } catch (e) {
+              Timer(const Duration(seconds: 1), () => goToLogin(context));
             }
-
-            context.read<Auth>().authorize();
-
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (BuildContext context) => const HomeScreen(),
-              ),
-            );
           });
         }
 

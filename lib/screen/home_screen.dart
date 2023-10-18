@@ -63,10 +63,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   const CheckListWeekGraph(),
                   hspace(40.0),
                   IconNavigationBar(
+                    targetKey: targetKey,
+                    controller: _controller,
                     pageContext: context,
                   ),
                   hspace(40.0),
-                  const CheckList(),
+                  CheckList(targetKey: targetKey),
                   hspace(60.0),
                 ],
               ),

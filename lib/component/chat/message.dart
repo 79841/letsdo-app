@@ -265,20 +265,20 @@ class MessageInputBox extends StatelessWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width,
+      height: 60.0,
       padding: const EdgeInsets.fromLTRB(16.0, 0, 8.0, 0),
+      color: mainWhite,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: SizedBox(
-              child: TextField(
-                onTap: () {
-                  Timer(const Duration(milliseconds: 500), scrollToBottom);
-                },
-                controller: messageController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your message',
-                ),
+            child: TextField(
+              onTap: () {
+                Timer(const Duration(milliseconds: 500), scrollToBottom);
+              },
+              controller: messageController,
+              decoration: const InputDecoration(
+                hintText: 'Enter your message',
               ),
             ),
           ),

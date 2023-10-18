@@ -72,15 +72,14 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Future<void> getChatroomId(BuildContext context) async {
-    Map<String, dynamic> chatroom = await fetchChatroom();
-
-    if (!chatroom.containsKey("chatroom_id")) {
-      chatroom = await createChatroom();
-      Provider.of<Chatroom>(context, listen: false)
-          .setChatroomId(chatroom["id"]);
-    } else {
+    try {
+      Map<String, dynamic> chatroom = await fetchChatroom();
       Provider.of<Chatroom>(context, listen: false)
           .setChatroomId(chatroom["chatroom_id"]);
+    } catch (e) {
+      Map<String, dynamic> chatroom = await createChatroom();
+      Provider.of<Chatroom>(context, listen: false)
+          .setChatroomId(chatroom["id"]);
     }
   }
 

@@ -52,7 +52,7 @@ Future<void> createUserWithEmailAndPassword(
       ),
       headers: headers,
     );
-    if (response.statusCode != 200) {
+    if (response.statusCode != 201) {
       print('Request failed with status code: ${response.statusCode}');
       print('Response body: ${response.body}');
       throw HttpException(

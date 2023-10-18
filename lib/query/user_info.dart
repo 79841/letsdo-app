@@ -50,7 +50,7 @@ Future<dynamic> getUserInfo() async {
     );
 
     if (response.statusCode == 200) {
-      dynamic decodedResposne = json.decode(response.body);
+      dynamic decodedResposne = json.decode(utf8.decode(response.bodyBytes));
       Map<String, dynamic> userInfo = decodedResposne;
       return userInfo;
     } else {
