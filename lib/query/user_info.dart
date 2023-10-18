@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ksica/config.dart';
@@ -55,9 +56,11 @@ Future<dynamic> getUserInfo() async {
     } else {
       print('Request failed with status code: ${response.statusCode}');
       print('Response body: ${response.body}');
-      return {"updated": false};
+      throw HttpException(
+          json.decode(utf8.decode(response.bodyBytes))["detail"]);
     }
   } catch (e) {
     print("Error occured: $e");
+    rethrow;
   }
 }
