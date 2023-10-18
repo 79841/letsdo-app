@@ -10,7 +10,7 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../Layout/sub_layout.dart';
 import '../component/chat/message.dart';
-import '../config.dart';
+import '../config/url.dart';
 import '../provider/auth.dart';
 import '../query/chatroom.dart';
 

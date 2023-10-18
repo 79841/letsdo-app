@@ -31,6 +31,7 @@ class TokenLoginScreen extends StatelessWidget {
               key: "Authorization",
               value: token,
             );
+
             try {
               final userInfo = await getUserInfo();
 

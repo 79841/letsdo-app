@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-import '../config.dart';
+import '../config/url.dart';
 
 Future<void> updateCheckList(checkStates) async {
   const storage = FlutterSecureStorage();

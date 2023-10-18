@@ -112,10 +112,21 @@ _Below is an example of how you can install and set up your app._
    git clone https://github.com/skj974600/kscia-app.git
    ```
 
-2. Install packages and run
+2. Install packages and set api url
 
    ```sh
    flutter pub get
+   ```
+
+   ```dart
+   // ./config/url.dart
+   const SERVER_URL = "http://server.url";
+   const WEBSOCKET_SERVER_URL = "ws://server.url";
+   ```
+
+3. Run app
+
+   ```sh
    flutter run lib/main.dart
    ```
 

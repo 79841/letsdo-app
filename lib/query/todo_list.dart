@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../config.dart';
+import '../config/url.dart';
 
 Future<List<dynamic>> fetchTodoList() async {
   Map<String, String> headers = {

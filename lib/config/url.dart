@@ -1,0 +1,2 @@
+const SERVER_URL = "http://141.164.51.245:8000";
+const WEBSOCKET_SERVER_URL = "ws://141.164.51.245:8000";
