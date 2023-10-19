@@ -54,9 +54,6 @@ class MessageBoxesState extends State<MessageBoxes> {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Timer(const Duration(milliseconds: 300), widget.scrollToBottom);
-    // });
     return Container(
       padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       child: FutureBuilder<Uint8List>(
@@ -65,7 +62,6 @@ class MessageBoxesState extends State<MessageBoxes> {
           Uint8List? opponentProfileImage = snapshot.data;
 
           ListView messages = ListView.builder(
-            // reverse: true,
             shrinkWrap: true,
             controller: widget.scrollController,
             itemCount: widget.messages.length,

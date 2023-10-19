@@ -54,15 +54,6 @@ class _MainLayoutState extends State<MainLayout> {
     onSuccess.call();
   }
 
-  // void _goToHome(BuildContext context) {
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (BuildContext context) => const HomeScreen(),
-  //     ),
-  //   );
-  // }
-
   void _goToProfile(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(

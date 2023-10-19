@@ -105,7 +105,6 @@ class __CheckBoxState extends State<_CheckBox> {
 
   @override
   void initState() {
-    // TODO: implement initState
     isChecked = widget.isChecked;
     super.initState();
   }

@@ -29,17 +29,6 @@ class CheckListTodayChart extends StatefulWidget {
 }
 
 class _CheckListTodayChartState extends State<CheckListTodayChart> {
-  // _scrollToTarget() {
-  //   final targetPosition =
-  //       widget.targetKey.currentContext!.findRenderObject() as RenderBox;
-  //   final position = targetPosition.localToGlobal(Offset.zero);
-  //   widget.controller.animateTo(
-  //     position.dy,
-  //     duration: const Duration(milliseconds: 600),
-  //     curve: Curves.linear,
-  //   );
-  // }
-
   Future<List<dynamic>> fetchData() async {
     List<dynamic> todoList = await fetchTodoList();
     List<dynamic> checkList = await fetchCheckList();

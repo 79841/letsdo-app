@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-// import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:ksica/config/url.dart';
 
@@ -57,7 +56,6 @@ Future<void> createUserWithEmailAndPassword(
       print('Response body: ${response.body}');
       throw HttpException(
           json.decode(utf8.decode(response.bodyBytes))["detail"]);
-      // throw Exception
     }
   } catch (e) {
     print("Error ocurred: $e");

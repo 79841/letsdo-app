@@ -22,7 +22,6 @@ class _ReloadDialogState extends State<ReloadDialog> {
         height: MediaQuery.of(context).size.height,
         color: lightBlue,
         child: Container(
-          // alignment: Alignment.center,
           height: 150.0,
           width: 300.0,
           decoration: BoxDecoration(
@@ -77,37 +76,6 @@ class _ReloadDialogState extends State<ReloadDialog> {
                   ),
                 ),
               ),
-              // GestureDetector(
-              //   onTap: widget.reload,
-              //   child: Container(
-              //     alignment: Alignment.center,
-              //     height: 40.0,
-              //     width: 100.0,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(10.0),
-              //       color: darkBlue,
-              //     ),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         const Icon(
-              //           Icons.refresh,
-              //           size: 25.0,
-              //           color: mainWhite,
-              //         ),
-              //         wspace(10.0),
-              //         const Text(
-              //           "재시도",
-              //           style: TextStyle(
-              //             color: mainWhite,
-              //             fontSize: 14.0,
-              //             fontWeight: FontWeight.w500,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
