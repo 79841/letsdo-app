@@ -204,6 +204,9 @@ class MessageBox extends StatelessWidget {
           color: bgColor,
           borderRadius: borderRadius,
         ),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.6,
+        ),
         child: Text(
           message["content"],
           overflow: TextOverflow.visible,

@@ -28,7 +28,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    channel.sink.close();
+    try {
+      channel.sink.close();
+    } catch (e) {
+      print("channel has not been initialized");
+    }
     scrollController.dispose();
     super.dispose();
   }
@@ -67,6 +71,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    try {
+      channel.sink.close();
+    } catch (e) {
+      print("channel has not been initialized");
+    }
     return SubLayout(
       title: "상담하기",
       child: Container(
