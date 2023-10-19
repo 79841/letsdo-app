@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ksica/provider/auth.dart';
-import 'package:ksica/screen/home_screen.dart';
-import 'package:ksica/screen/token_login_screen.dart';
+import 'package:ksica/providers/auth.dart';
+import 'package:ksica/screens/home_screen.dart';
+import 'package:ksica/screens/token_login_screen.dart';
 import 'package:provider/provider.dart';
 
 class WidgetTree extends StatefulWidget {

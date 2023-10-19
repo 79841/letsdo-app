@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ksica/component/chat_button.dart';
+import 'package:ksica/components/button/chat_button.dart';
 
 class BottomBarStyle {
   static const double height = 60.0;

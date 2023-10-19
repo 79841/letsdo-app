@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:ksica/config/style.dart';
-import '../query/profile_image.dart';
+import '../../services/profile_image.dart';
 
 class ProfileImage extends StatefulWidget {
   final double profileImageSize;

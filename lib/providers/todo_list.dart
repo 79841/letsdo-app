@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../query/todo_list.dart';
+import '../services/todo_list.dart';
 
 class TodoList with ChangeNotifier {
   List<dynamic> _todoList = [];

@@ -2,16 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:ksica/component/dialog/warning_dialog.dart';
-import 'package:ksica/component/input_box.dart';
+import 'package:ksica/components/dialog/warning_dialog.dart';
+import 'package:ksica/components/input/input_box.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/user_info.dart';
-import 'package:ksica/query/user_info.dart';
+import 'package:ksica/providers/user_info.dart';
+import 'package:ksica/services/user_info.dart';
 import 'package:ksica/utils/email_format_check.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/auth.dart';
-import '../query/auth.dart';
+import '../providers/auth.dart';
+import '../services/auth.dart';
 import '../utils/space.dart';
 import 'home_screen.dart';
 

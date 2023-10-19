@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ksica/query/check_list.dart';
+import 'package:ksica/services/check_list.dart';
 import 'package:intl/intl.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../config/style.dart';
-import '../provider/check_list.dart';
-import '../provider/todo_list.dart';
+import '../../config/style.dart';
+import '../../providers/check_list.dart';
+import '../../providers/todo_list.dart';
 
 class CheckListWeekGraphStyle {
   static const double titleFontSize = 16.5;

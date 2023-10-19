@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../config/style.dart';
+import '../../config/style.dart';
 
 class InputBoxStyle {
   static const double inputFontSize = 15.0;

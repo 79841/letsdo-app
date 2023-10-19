@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import '../config/url.dart';
-import '../config/style.dart';
-import '../provider/auth.dart';
-import '../provider/chatroom.dart';
-import '../utils/navigator.dart';
+import '../../config/url.dart';
+import '../../config/style.dart';
+import '../../providers/auth.dart';
+import '../../providers/chatroom.dart';
+import '../../utils/navigator.dart';
 
 class ChatButton extends StatefulWidget {
   final double iconSize;

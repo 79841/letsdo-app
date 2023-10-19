@@ -4,10 +4,10 @@ import 'package:ksica/utils/navigator.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../provider/check_list.dart';
-import '../provider/todo_list.dart';
-import '../query/check_list.dart';
-import '../query/todo_list.dart';
+import '../../providers/check_list.dart';
+import '../../providers/todo_list.dart';
+import '../../services/check_list.dart';
+import '../../services/todo_list.dart';
 
 class CheckListTodayChartStyle {
   static const double titleFontSize = 16.0;

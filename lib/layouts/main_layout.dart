@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:ksica/component/bottom_bar.dart';
-import 'package:ksica/component/dialog/loading_dialog.dart';
-import 'package:ksica/component/dialog/retry_dialog.dart';
+import 'package:ksica/components/bar/bottom_bar.dart';
+import 'package:ksica/components/dialog/loading_dialog.dart';
+import 'package:ksica/components/dialog/retry_dialog.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/user_info.dart';
-import 'package:ksica/query/chatroom.dart';
-import 'package:ksica/screen/home_screen.dart';
+import 'package:ksica/providers/user_info.dart';
+import 'package:ksica/services/chatroom.dart';
+import 'package:ksica/screens/home_screen.dart';
 import 'package:ksica/utils/fetch_with_retry.dart';
 import 'package:ksica/utils/navigator.dart';
 import 'package:provider/provider.dart';
 
-import '../component/profile_image.dart';
-import '../provider/auth.dart';
-import '../provider/chatroom.dart';
-import '../screen/login_register_screen.dart';
-import '../screen/profile_screen.dart';
+import '../components/profile/profile_image.dart';
+import '../providers/auth.dart';
+import '../providers/chatroom.dart';
+import '../screens/login_register_screen.dart';
+import '../screens/profile_screen.dart';
 
 class MainLayoutStyle {
   static const Color bgColor = Color(0xffE6EDF6);

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:ksica/component/icon_navigation_bar.dart';
+import 'package:ksica/components/bar/icon_navigation_bar.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
-import '../Layout/main_layout.dart';
-import '../component/check_list.dart';
-import '../component/check_list_week_chart.dart';
-import '../component/check_list_today_chart.dart';
-import '../provider/auth.dart';
-import '../provider/todo_list.dart';
+import '../layouts/main_layout.dart';
+import '../components/checklist/check_list.dart';
+import '../components/chart/check_list_week_chart.dart';
+import '../components/chart/check_list_today_chart.dart';
+import '../providers/auth.dart';
+import '../providers/todo_list.dart';
 import 'chat_screen.dart';
 import 'checklist_screen.dart';
-import '../provider/check_list.dart' as clp;
+import '../providers/check_list.dart' as clp;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

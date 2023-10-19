@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/chatroom.dart';
+import 'package:ksica/providers/chatroom.dart';
 import 'package:provider/provider.dart';
-import '../utils/navigator.dart';
+import '../../utils/navigator.dart';
 
 class IconNavigationBarStyle {
   static const double fontSize = 16.0;

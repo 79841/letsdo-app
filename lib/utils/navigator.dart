@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../screen/chat_screen.dart';
-import '../screen/login_register_screen.dart';
-import '../screen/profile_screen.dart';
+import '../screens/chat_screen.dart';
+import '../screens/login_register_screen.dart';
+import '../screens/profile_screen.dart';
 
 void goToChat(BuildContext context, int? chatroomId,
     FutureOr<dynamic> Function(dynamic) callback) async {

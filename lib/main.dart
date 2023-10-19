@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/auth.dart';
-import 'package:ksica/provider/chatroom.dart';
-import 'package:ksica/provider/check_list.dart';
-import 'package:ksica/provider/todo_list.dart';
-import 'package:ksica/provider/user_info.dart';
+import 'package:ksica/providers/auth.dart';
+import 'package:ksica/providers/chatroom.dart';
+import 'package:ksica/providers/check_list.dart';
+import 'package:ksica/providers/todo_list.dart';
+import 'package:ksica/providers/user_info.dart';
 import 'package:ksica/widget_tree.dart';
 import 'package:provider/provider.dart';
 

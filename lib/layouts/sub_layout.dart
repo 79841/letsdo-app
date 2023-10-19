@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/user_info.dart';
-import 'package:ksica/screen/home_screen.dart';
+import 'package:ksica/providers/user_info.dart';
+import 'package:ksica/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../component/profile_image.dart';
-import '../screen/profile_screen.dart';
+import '../components/profile/profile_image.dart';
+import '../screens/profile_screen.dart';
 
 class SubLayout extends StatelessWidget {
   final String title;

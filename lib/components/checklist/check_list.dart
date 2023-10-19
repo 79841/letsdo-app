@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ksica/component/to_do.dart';
+import 'package:ksica/components/checklist/to_do.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
-import '../provider/todo_list.dart';
-import '../query/check_list.dart';
-import '../provider/check_list.dart' as clp;
+import '../../providers/todo_list.dart';
+import '../../services/check_list.dart';
+import '../../providers/check_list.dart' as clp;
 
 class CheckListStyle {
   static const double titleFontSize = 16.0;

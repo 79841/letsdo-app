@@ -2,15 +2,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ksica/component/input_box.dart';
-import 'package:ksica/component/profile_image.dart';
+import 'package:ksica/components/input/input_box.dart';
+import 'package:ksica/components/profile/profile_image.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/user_info.dart';
-import 'package:ksica/query/user_info.dart';
+import 'package:ksica/providers/user_info.dart';
+import 'package:ksica/services/user_info.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
-import '../Layout/sub_layout.dart';
-import '../query/profile_image.dart';
+import '../layouts/sub_layout.dart';
+import '../services/profile_image.dart';
 
 class ProfileScreenStyle {
   static const double boxWidth = 270.0;

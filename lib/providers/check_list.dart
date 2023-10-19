@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../query/check_list.dart';
+import '../services/check_list.dart';
 
 class CheckList with ChangeNotifier {
   List<dynamic> _checkStates = [];

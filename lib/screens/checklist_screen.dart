@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ksica/component/to_do.dart';
+import 'package:ksica/components/checklist/to_do.dart';
 import 'package:provider/provider.dart';
-import '../Layout/sub_layout.dart';
-import '../provider/check_list.dart';
-import '../query/check_list.dart';
-import '../query/todo_list.dart';
+import '../layouts/sub_layout.dart';
+import '../providers/check_list.dart';
+import '../services/check_list.dart';
+import '../services/todo_list.dart';
 
 class CheckListScreen extends StatefulWidget {
   const CheckListScreen({super.key});

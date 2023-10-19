@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
-import '../component/dialog/loading_dialog.dart';
-import '../provider/auth.dart';
-import '../provider/user_info.dart';
-import '../query/auth.dart';
-import '../query/user_info.dart';
+import '../components/dialog/loading_dialog.dart';
+import '../providers/auth.dart';
+import '../providers/user_info.dart';
+import '../services/auth.dart';
+import '../services/user_info.dart';
 import '../utils/navigator.dart';
 import 'home_screen.dart';
 

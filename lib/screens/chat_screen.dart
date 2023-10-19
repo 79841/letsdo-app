@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:ksica/config/style.dart';
-import 'package:ksica/provider/chatroom.dart';
-import 'package:ksica/query/message.dart';
+import 'package:ksica/providers/chatroom.dart';
+import 'package:ksica/services/message.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import '../Layout/sub_layout.dart';
-import '../component/chat/message.dart';
+import '../layouts/sub_layout.dart';
+import '../components/chat/message.dart';
 import '../config/url.dart';
-import '../provider/auth.dart';
-import '../query/chatroom.dart';
+import '../providers/auth.dart';
+import '../services/chatroom.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});

@@ -7,7 +7,7 @@ import 'package:ksica/config/style.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../../query/profile_image.dart';
+import '../../services/profile_image.dart';
 
 class MessageBoxStyle {
   static const double borderRadius = 8.0;

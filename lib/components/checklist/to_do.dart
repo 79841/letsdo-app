@@ -3,8 +3,8 @@ import 'package:ksica/config/style.dart';
 import 'package:ksica/utils/space.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/check_list.dart';
-import '../query/check_list.dart';
+import '../../providers/check_list.dart';
+import '../../services/check_list.dart';
 
 class ToDoStyle {
   static const double todoListFontSize = 16.0;
