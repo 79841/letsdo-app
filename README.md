@@ -12,10 +12,10 @@
     <img src="./assets/images/readme/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">KSCIA ADMIN APP</h3>
+  <h3 align="center">KSCIA APP</h3>
 
   <p align="center">
-    Admin App for managing and consulting KSCIA app users 
+    Lifestyle app for people with spinal cord disability
     <br />
     <a href="https://github.com/skj974600/kscia-app"><strong>Explore the docs »</strong></a>
     <br />
